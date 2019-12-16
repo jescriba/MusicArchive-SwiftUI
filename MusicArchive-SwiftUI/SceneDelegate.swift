@@ -20,10 +20,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        ArchiveClient.shared.getContent(type: Song.self, completionHandler: { (songs) -> () in
-        
+        let contentObserver = ContentObserver()
+//        ArchiveClient.shared.getContent(type: Song.self, completionHandler: { fetchedContent -> () in
+//            DispatchQueue.main.async {
+//                content.content = fetchedContent
+//            }
+//        })
+//        ArchiveClient.shared.getContent(type: Album.self, completionHandler: { fetchedContent -> () in
+//            DispatchQueue.main.async {
+//                contentObserver.content = fetchedContent
+//            }
+//        })
+//        ArchiveClient.shared.getContent(type: Playlist.self, completionHandler: { fetchedContent -> () in
+//            DispatchQueue.main.async {
+//                contentObserver.content = fetchedContent
+//            }
+//        })
+        ArchiveClient.shared.getContent(type: Artist.self, completionHandler: { fetchedContent -> () in
+            DispatchQueue.main.async {
+                contentObserver.content = fetchedContent
+            }
         })
-        let contentView = ContentView()
+        
+        let contentView = ContentView().environmentObject(contentObserver)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

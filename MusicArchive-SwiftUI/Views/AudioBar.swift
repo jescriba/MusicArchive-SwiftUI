@@ -10,8 +10,21 @@ import Foundation
 import SwiftUI
 
 struct AudioBar: View {
+    @EnvironmentObject var player: AudioPlayer
+    
     var body: some View {
-        Text("Test")
+        HStack {
+            Button(action: {
+                if self.player.state == .playing {
+                    self.player.state = .paused
+                } else {
+                    self.player.state = .playing
+                }
+            }) {
+                Text(player.state.rawValue)
+            }
+            Text(player.songObserver.song?.name ?? "n/a")
+        }
     }
 }
 

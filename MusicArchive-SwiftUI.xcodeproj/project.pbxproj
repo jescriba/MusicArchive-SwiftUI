@@ -22,6 +22,8 @@
 		42245A6E239E0BF6004A8E89 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A6D239E0BF6004A8E89 /* Artist.swift */; };
 		42245A70239E0BFE004A8E89 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A6F239E0BFE004A8E89 /* Album.swift */; };
 		42245A72239E0C09004A8E89 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A71239E0C09004A8E89 /* Playlist.swift */; };
+		4282160923A6F56900180FBE /* ContentObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160823A6F56900180FBE /* ContentObserver.swift */; };
+		4282160B23A7003600180FBE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160A23A7003600180FBE /* AudioPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		42245A6D239E0BF6004A8E89 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		42245A6F239E0BFE004A8E89 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		42245A71239E0C09004A8E89 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		4282160823A6F56900180FBE /* ContentObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObserver.swift; sourceTree = "<group>"; };
+		4282160A23A7003600180FBE /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,8 @@
 				42245A6D239E0BF6004A8E89 /* Artist.swift */,
 				42245A6F239E0BFE004A8E89 /* Album.swift */,
 				42245A71239E0C09004A8E89 /* Playlist.swift */,
+				4282160823A6F56900180FBE /* ContentObserver.swift */,
+				4282160A23A7003600180FBE /* AudioPlayer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -305,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42245A6C239E0BEE004A8E89 /* Song.swift in Sources */,
+				4282160923A6F56900180FBE /* ContentObserver.swift in Sources */,
 				42245A2F239DF8DD004A8E89 /* AppDelegate.swift in Sources */,
 				42245A31239DF8DD004A8E89 /* SceneDelegate.swift in Sources */,
 				42245A6A239E0ADC004A8E89 /* AudioBar.swift in Sources */,
@@ -314,6 +321,7 @@
 				42245A6E239E0BF6004A8E89 /* Artist.swift in Sources */,
 				42245A61239E07AF004A8E89 /* ArchiveClient.swift in Sources */,
 				42245A72239E0C09004A8E89 /* Playlist.swift in Sources */,
+				4282160B23A7003600180FBE /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

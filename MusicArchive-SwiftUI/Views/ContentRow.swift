@@ -10,13 +10,27 @@ import Foundation
 import SwiftUI
 
 struct ContentRow: View {
+    @EnvironmentObject var player: AudioPlayer
+    @State var content: Content
+    
     var body: some View {
-        Text("")
+        HStack {
+            if content is Song {
+                Button(action:  {
+                    self.player.state = .playing
+                    self.player.play(song: self.content as! Song)
+                }) {
+                    Text(content.name)
+                }
+            } else {
+                Text(content.name)
+            }
+        }
     }
 }
 
 struct ContentRowPreview: PreviewProvider {
     static var previews: some View {
-        ContentRow()
+        ContentRow(content: Song(name: "Song", description: ""))
     }
 }

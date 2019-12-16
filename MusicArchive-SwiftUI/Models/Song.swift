@@ -8,7 +8,21 @@
 
 import Foundation
 
+class SongObserver: ObservableObject {
+    @Published var song: Song?
+}
+
 struct Song: Codable, Content {
     var name: String
     var description: String?
+    
+    enum CodingKeys: CodingKey {
+        case name
+        case description
+    }
+    
+    init(name: String, description: String) {
+        self.name = name
+        self.description = description
+    }
 }
