@@ -32,11 +32,6 @@ struct ContentView: View {
             }
             Spacer()
             HStack {
-                Button(action: {
-                    
-                }) {
-                    Text("Home")
-                }.padding()
                 Spacer()
                 Button(action: {
                     self.getContent(type: Album.self)

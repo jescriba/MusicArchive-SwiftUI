@@ -15,11 +15,7 @@ class SongObserver: ObservableObject {
 struct Song: Codable, Content {
     var name: String
     var description: String?
-    
-    enum CodingKeys: CodingKey {
-        case name
-        case description
-    }
+    var url: String?
     
     init(name: String, description: String) {
         self.name = name

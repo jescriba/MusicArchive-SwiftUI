@@ -21,21 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         let contentObserver = ContentObserver()
-//        ArchiveClient.shared.getContent(type: Song.self, completionHandler: { fetchedContent -> () in
-//            DispatchQueue.main.async {
-//                content.content = fetchedContent
-//            }
-//        })
-//        ArchiveClient.shared.getContent(type: Album.self, completionHandler: { fetchedContent -> () in
-//            DispatchQueue.main.async {
-//                contentObserver.content = fetchedContent
-//            }
-//        })
-//        ArchiveClient.shared.getContent(type: Playlist.self, completionHandler: { fetchedContent -> () in
-//            DispatchQueue.main.async {
-//                contentObserver.content = fetchedContent
-//            }
-//        })
         ArchiveClient.shared.getContent(type: Artist.self, completionHandler: { fetchedContent -> () in
             DispatchQueue.main.async {
                 contentObserver.content = fetchedContent
