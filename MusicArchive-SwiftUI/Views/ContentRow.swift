@@ -17,13 +17,21 @@ struct ContentRow: View {
         HStack {
             if content is Song {
                 Button(action:  {
-                    self.player.state = .playing
                     self.player.play(song: self.content as! Song)
                 }) {
                     Text(content.name)
+                        .fontWeight(.semibold)
+                        .padding(.all, 15)
                 }
             } else {
-                Text(content.name)
+                Button(action:  {
+                    
+                    //self.player.play(song: self.content as! Song)
+                }) {
+                    Text(content.name)
+                        .fontWeight(.semibold)
+                        .padding(.all, 15)
+                }
             }
         }
     }

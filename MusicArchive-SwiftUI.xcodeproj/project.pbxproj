@@ -67,6 +67,7 @@
 		42245A71239E0C09004A8E89 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		4282160823A6F56900180FBE /* ContentObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObserver.swift; sourceTree = "<group>"; };
 		4282160A23A7003600180FBE /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		4282160C23A8B26A00180FBE /* MusicArchive-SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MusicArchive-SwiftUI.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +118,7 @@
 		42245A2D239DF8DD004A8E89 /* MusicArchive-SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				4282160C23A8B26A00180FBE /* MusicArchive-SwiftUI.entitlements */,
 				42245A62239E0881004A8E89 /* Views */,
 				42245A5F239E0788004A8E89 /* Models */,
 				42245A2E239DF8DD004A8E89 /* AppDelegate.swift */,
@@ -486,8 +488,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MusicArchive-SwiftUI/MusicArchive-SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicArchive-SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = GFSP92A3FB;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "MusicArchive-SwiftUI/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -496,6 +500,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "joshuae.MusicArchive-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -505,8 +510,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "MusicArchive-SwiftUI/MusicArchive-SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicArchive-SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = GFSP92A3FB;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "MusicArchive-SwiftUI/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,6 +522,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "joshuae.MusicArchive-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

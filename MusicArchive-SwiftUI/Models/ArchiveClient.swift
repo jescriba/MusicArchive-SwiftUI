@@ -13,11 +13,21 @@ protocol Content: Codable {
     var description: String? { get }
 }
 
-enum ContentType {
-    case artist
-    case song
-    case album
-    case playlist
+extension Content {
+    func typeString() -> String {
+        switch self {
+        case is Artist:
+            return "Artists"
+        case is Song:
+            return "Songs"
+        case is Playlist:
+            return "Playlists"
+        case is Album:
+            return "Albums"
+        default:
+            return ""
+        }
+    }
 }
 
 class ArchiveClient {

@@ -8,8 +8,16 @@
 
 import SwiftUI
 
+enum ContentType {
+    case artist
+    case song
+    case album
+    case playlist
+}
+
 struct ContentView: View {
     @State var loading: Bool = false
+    @State var contentType: ContentType = .artist
     @EnvironmentObject var content: ContentObserver
     func getContent<T: Content>(type: T.Type) {
         self.loading = true
@@ -23,6 +31,11 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            if content.content.first?.typeString() != nil {
+                Text(content.content.first!.typeString())
+                    .fontWeight(.heavy)
+                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+            }
             if loading {
                 Text("Loading...")
             }
@@ -35,26 +48,34 @@ struct ContentView: View {
                 Spacer()
                 Button(action: {
                     self.getContent(type: Album.self)
+                    self.contentType = .album
                 }) {
                     Text("Albums")
+                        .fontWeight(contentType == .album ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Artist.self)
+                    self.contentType = .artist
                 }) {
                     Text("Artists")
+                        .fontWeight(contentType == .artist ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Song.self)
+                    self.contentType = .song
                 }) {
                     Text("Songs")
+                        .fontWeight(contentType == .song ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Playlist.self)
+                    self.contentType = .playlist
                 }) {
                     Text("Playlists")
+                        .fontWeight(contentType == .playlist ? .heavy : .semibold)
                 }
                 Spacer()
             }

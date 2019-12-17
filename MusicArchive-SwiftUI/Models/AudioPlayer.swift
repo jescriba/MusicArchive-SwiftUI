@@ -50,10 +50,10 @@ class AudioPlayer: ObservableObject {
             return
         }
         songObserver.song = song
-        insertNext(song: song)
         if let currentItem = _player.currentItem {
             _player.remove(currentItem)
         }
+        insertNext(song: song)
         _player.play()
     }
     
