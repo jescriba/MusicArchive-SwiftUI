@@ -15,21 +15,17 @@ struct AudioBar: View {
     var body: some View {
         HStack {
             Button(action: {
-                
+                self.player.playPrevious()
             }) {
                 Image(systemName: "backward.fill").resizable().frame(width: 20, height: 20, alignment: .center)
-            }.padding(.all, 10)
+            }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 10))
             Button(action: {
-                if self.player.state == .playing {
-                    self.player.state = .paused
-                } else {
-                    self.player.state = .playing
-                }
+                self.player.togglePlayState()
             }) {
                 player.state.image().resizable().frame(width: 40, height: 40, alignment: .center)
-                }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                }.padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
             Button(action: {
-                
+                self.player.playNext()
             }) {
                 Image(systemName: "forward.fill").resizable().frame(width: 20, height: 20, alignment: .center)
             }.padding(.all, 10)
