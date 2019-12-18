@@ -12,7 +12,7 @@ class SongObserver: ObservableObject {
     @Published var song: Song?
 }
 
-struct Song: Codable, Content {
+struct Song: Codable, Equatable, Content {
     var name: String
     var description: String?
     var url: String?
@@ -20,5 +20,10 @@ struct Song: Codable, Content {
     init(name: String, description: String) {
         self.name = name
         self.description = description
+    }
+    
+    static func ==(lhs: Song, rhs: Song) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.url == rhs.url
     }
 }

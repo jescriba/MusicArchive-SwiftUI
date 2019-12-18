@@ -42,6 +42,11 @@ struct ContentView: View {
             Spacer()
             List(content.content, id: \.name) { content in
                 ContentRow(content: content).environmentObject(AudioPlayer.shared)
+                    .onTapGesture {
+                        guard let songs = self.content.content as? [Song],
+                            let index = songs.firstIndex(where: { $0 == content as! Song }) else { return }
+                        AudioPlayer.shared.queue(songs: Array(songs.dropFirst(index)))
+                }
             }
             Spacer()
             HStack {
