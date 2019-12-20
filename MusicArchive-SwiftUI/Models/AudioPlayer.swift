@@ -36,19 +36,27 @@ class SongPlayerItem: AVPlayerItem {
         self.init(url: url)
         self.song = song
     }
+    
 }
 
 class AudioPlayer: NSObject, ObservableObject {
     static let shared = AudioPlayer()
-    @Published var songObserver: SongObserver = SongObserver()
+    @Published var currentSong: Song?
     @Published var state: PlayState = .stopped
     private var _player = AVQueuePlayer()
+    private var previousSongPlayerItems = [SongPlayerItem]()
     private var itemSubscriber: AnyCancellable!
     private var timeControlSubscriber: AnyCancellable!
     private var trackTimeSubscriber: AnyCancellable!
     
     override init() {
         super.init()
+        
+        setupListeners()
+        setupAudioSession()
+    }
+    
+    private func setupListeners() {
         // Set up subscribers
         self.trackTimeSubscriber = _player.publisher(for: \.currentItem)
             .filter({ $0 != nil })
@@ -58,7 +66,7 @@ class AudioPlayer: NSObject, ObservableObject {
             }).sink(receiveValue: { time in
                 // TODO in app slider or something
             })
-        
+                
         self.itemSubscriber = _player.publisher(for: \.currentItem)
             .sink(receiveValue: { [weak self] item in
                 guard let songItem = item as? SongPlayerItem,
@@ -66,7 +74,8 @@ class AudioPlayer: NSObject, ObservableObject {
                         return
                 }
                 
-                self?.songObserver.song = song
+                self?.previousSongPlayerItems.append(songItem, max: 40)
+                self?.currentSong = song
                 self?.updateInfoCenter(song: song, duration: songItem.duration)
             })
         
@@ -81,7 +90,9 @@ class AudioPlayer: NSObject, ObservableObject {
                     MPNowPlayingInfoCenter.default().playbackState = .stopped
                 }
             })
-        
+    }
+    
+    private func setupAudioSession() {
         // Configure default audio session and remote command setup
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .init(rawValue: 0))
@@ -95,11 +106,12 @@ class AudioPlayer: NSObject, ObservableObject {
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.nextTrackCommand.isEnabled = true
         commandCenter.previousTrackCommand.isEnabled = true
-        //commandCenter.changePlaybackPositionCommand.isEnabled = true
+        commandCenter.changePlaybackPositionCommand.isEnabled = true
         commandCenter.playCommand.addTarget(self, action: #selector(remotePlay))
         commandCenter.pauseCommand.addTarget(self, action: #selector(remotePause))
         commandCenter.nextTrackCommand.addTarget(self, action: #selector(remotePlayNext))
         commandCenter.previousTrackCommand.addTarget(self, action: #selector(remotePlayPrevious))
+        commandCenter.changePlaybackPositionCommand.addTarget(self, action: #selector(remoteChangePlaybackPosition(event:)))
     }
     
     // Toggles the play state. If paused/stopped will trigger play otherwise will trigger paused
@@ -118,7 +130,7 @@ class AudioPlayer: NSObject, ObservableObject {
             _player.play()
             return
         }
-        songObserver.song = song
+        currentSong = song
         if let currentItem = _player.currentItem {
             _player.remove(currentItem)
         }
@@ -139,6 +151,7 @@ class AudioPlayer: NSObject, ObservableObject {
     // Plays the previous song that was in the queue. 
     func playPrevious() {
         // TODONOW
+        
     }
     
     @objc func remotePlayPrevious() -> MPRemoteCommandHandlerStatus {
@@ -158,6 +171,11 @@ class AudioPlayer: NSObject, ObservableObject {
     
     @objc func remotePause() -> MPRemoteCommandHandlerStatus {
         pause()
+        return MPRemoteCommandHandlerStatus.success
+    }
+    
+    @objc func remoteChangePlaybackPosition(event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
+        // TODO
         return MPRemoteCommandHandlerStatus.success
     }
     

@@ -10,29 +10,13 @@ import Foundation
 import SwiftUI
 
 struct ContentRow: View {
-    @EnvironmentObject var player: AudioPlayer
     @State var content: Content
     
     var body: some View {
         HStack {
-            if content is Song {
-                Button(action:  {
-                    self.player.play(song: self.content as! Song)
-                }) {
-                    Text(content.name)
-                        .fontWeight(.semibold)
-                        .padding(.all, 15)
-                }
-            } else {
-                Button(action:  {
-                    
-                    //self.player.play(song: self.content as! Song)
-                }) {
-                    Text(content.name)
-                        .fontWeight(.semibold)
-                        .padding(.all, 15)
-                }
-            }
+            Text(content.name)
+                .fontWeight(.semibold)
+                .padding(.all, 15)
         }
     }
 }

@@ -24,6 +24,7 @@
 		42245A72239E0C09004A8E89 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A71239E0C09004A8E89 /* Playlist.swift */; };
 		4282160923A6F56900180FBE /* ContentObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160823A6F56900180FBE /* ContentObserver.swift */; };
 		4282160B23A7003600180FBE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160A23A7003600180FBE /* AudioPlayer.swift */; };
+		4DBC4EED23AC3B6C006BD946 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBC4EEC23AC3B6C006BD946 /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		4282160823A6F56900180FBE /* ContentObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObserver.swift; sourceTree = "<group>"; };
 		4282160A23A7003600180FBE /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		4282160C23A8B26A00180FBE /* MusicArchive-SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MusicArchive-SwiftUI.entitlements"; sourceTree = "<group>"; };
+		4DBC4EEC23AC3B6C006BD946 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				4282160C23A8B26A00180FBE /* MusicArchive-SwiftUI.entitlements */,
+				4DBC4EEB23AC3B3E006BD946 /* Extensions */,
 				42245A62239E0881004A8E89 /* Views */,
 				42245A5F239E0788004A8E89 /* Models */,
 				42245A2E239DF8DD004A8E89 /* AppDelegate.swift */,
@@ -179,6 +182,14 @@
 				42245A69239E0ADC004A8E89 /* AudioBar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4DBC4EEB23AC3B3E006BD946 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4DBC4EEC23AC3B6C006BD946 /* Array+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +332,7 @@
 				42245A70239E0BFE004A8E89 /* Album.swift in Sources */,
 				42245A68239E0ACC004A8E89 /* ContentRow.swift in Sources */,
 				42245A6E239E0BF6004A8E89 /* Artist.swift in Sources */,
+				4DBC4EED23AC3B6C006BD946 /* Array+Extensions.swift in Sources */,
 				42245A61239E07AF004A8E89 /* ArchiveClient.swift in Sources */,
 				42245A72239E0C09004A8E89 /* Playlist.swift in Sources */,
 				4282160B23A7003600180FBE /* AudioPlayer.swift in Sources */,

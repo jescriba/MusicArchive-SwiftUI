@@ -19,6 +19,7 @@ struct ContentView: View {
     @State var loading: Bool = false
     @State var contentType: ContentType = .artist
     @EnvironmentObject var content: ContentObserver
+    @EnvironmentObject var audioPlayer: AudioPlayer
     func getContent<T: Content>(type: T.Type) {
         self.loading = true
         ArchiveClient.shared.getContent(type: type, completionHandler: { fetchedContent -> () in
@@ -41,11 +42,17 @@ struct ContentView: View {
             }
             Spacer()
             List(content.content, id: \.name) { content in
-                ContentRow(content: content).environmentObject(AudioPlayer.shared)
+                ContentRow(content: content)
                     .onTapGesture {
                         guard let songs = self.content.content as? [Song],
-                            let index = songs.firstIndex(where: { $0 == content as! Song }) else { return }
-                        AudioPlayer.shared.queue(songs: Array(songs.dropFirst(index)))
+                            let index = songs.firstIndex(where: { $0 == content as! Song }),
+                            let song = content as? Song else {
+                                return
+                        }
+                        self.audioPlayer.play(song: song)
+                        DispatchQueue.global().async {
+                            self.audioPlayer.queue(songs: Array(songs.dropFirst(index + 1)))
+                        }
                 }
             }
             Spacer()
@@ -85,7 +92,7 @@ struct ContentView: View {
                 Spacer()
             }
             Spacer()
-            AudioBar().environmentObject(AudioPlayer.shared)
+            AudioBar().environmentObject(audioPlayer)
         }
     }
 }

@@ -8,10 +8,6 @@
 
 import Foundation
 
-class SongObserver: ObservableObject {
-    @Published var song: Song?
-}
-
 struct Song: Codable, Equatable, Content {
     var name: String
     var description: String?

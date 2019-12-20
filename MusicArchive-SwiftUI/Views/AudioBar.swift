@@ -29,7 +29,7 @@ struct AudioBar: View {
             }) {
                 Image(systemName: "forward.fill").resizable().frame(width: 20, height: 20, alignment: .center)
             }.padding(.all, 10)
-            Text(player.songObserver.song?.name ?? "n/a")
+            Text(player.currentSong?.name ?? "n/a")
             Spacer()
         }
     }
