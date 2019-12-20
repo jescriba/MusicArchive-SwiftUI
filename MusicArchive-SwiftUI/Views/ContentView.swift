@@ -44,15 +44,7 @@ struct ContentView: View {
             List(content.content, id: \.name) { content in
                 ContentRow(content: content)
                     .onTapGesture {
-                        guard let songs = self.content.content as? [Song],
-                            let index = songs.firstIndex(where: { $0 == content as! Song }),
-                            let song = content as? Song else {
-                                return
-                        }
-                        self.audioPlayer.play(song: song)
-                        DispatchQueue.global().async {
-                            self.audioPlayer.queue(songs: Array(songs.dropFirst(index + 1)))
-                        }
+                        self.content.selectionAction(content)
                 }
             }
             Spacer()

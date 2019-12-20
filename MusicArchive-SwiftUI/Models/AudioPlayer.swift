@@ -150,12 +150,14 @@ class AudioPlayer: NSObject, ObservableObject {
     
     // Plays the previous song that was in the queue. 
     func playPrevious() {
-        // TODONOW
-        
+        guard let previousSongPlayer = previousSongPlayerItems.popLast() else {
+            return
+        }
+        _player.replaceCurrentItem(with: previousSongPlayer)
     }
     
     @objc func remotePlayPrevious() -> MPRemoteCommandHandlerStatus {
-        // TODO
+        playPrevious()
         return MPRemoteCommandHandlerStatus.success
     }
     
@@ -175,7 +177,8 @@ class AudioPlayer: NSObject, ObservableObject {
     }
     
     @objc func remoteChangePlaybackPosition(event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
-        // TODO
+            _player.currentItem?.seek(to: CMTime(seconds: event.positionTime, preferredTimescale: .max)
+, completionHandler: nil)
         return MPRemoteCommandHandlerStatus.success
     }
     
@@ -223,7 +226,7 @@ class AudioPlayer: NSObject, ObservableObject {
         nowPlayingInfo[MPMediaItemPropertyTitle] = song.name
         nowPlayingInfo[MPMediaItemPropertyArtist] = "-"
         nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "-"
-        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration.seconds
 
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
