@@ -44,9 +44,7 @@ struct ContentView: View {
                         index > 0 &&
                         index > self.currentMaxIndex {
                         self.currentMaxIndex = index // Prevent scrolling _up_ from incrementing current page
-                        DispatchQueue.global(qos: .background).async {
-                            self.contentObserver.getMoreContent()
-                        }
+                        self.contentObserver.getMoreContent()
                     }
                 })
             }.gesture(DragGesture()

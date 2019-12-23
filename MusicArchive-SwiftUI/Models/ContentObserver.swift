@@ -62,11 +62,9 @@ class ContentObserver: ObservableObject {
     
     
     func getContent<T: Content>(type: T.Type, page: Int = 1, append: Bool = false) {
-        DispatchQueue.main.async {
-            self.currentPage = page
-            self.contentType = type
-            self.isLoading = true
-        }
+        self.currentPage = page
+        self.contentType = type
+        self.isLoading = true
         ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
             DispatchQueue.main.async {
                 if append {
