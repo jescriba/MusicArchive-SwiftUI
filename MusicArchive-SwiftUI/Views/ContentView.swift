@@ -52,7 +52,7 @@ struct ContentView: View {
             }.gesture(DragGesture()
                 .onEnded({ gesture in
                     if gesture.startLocation.x < CGFloat(100.0) && gesture.location.x > 60 {
-                        print("edge pan")
+                        self.contentObserver.popToParent()
                     }
                  }
             ))

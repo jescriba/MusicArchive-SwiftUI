@@ -16,6 +16,7 @@ class ContentObserver: ObservableObject {
     
     @Published var contents = [Content]()
     @Published var parentContent: Content?
+    var parentContents: [Content]?
     lazy var selectionAction: (_: Content) -> Void = { selectedContent in
         switch self.contents.first {
         case is Artist:
@@ -37,6 +38,7 @@ class ContentObserver: ObservableObject {
             }
             self.contents = album.songs
             self.parentContent = album
+            self.parentContents = albums
         case is Playlist:
             guard let playlists = self.contents as? [Playlist],
                 let playlist = selectedContent as? Playlist else {
@@ -44,9 +46,18 @@ class ContentObserver: ObservableObject {
             }
             self.contents = playlist.songs
             self.parentContent = playlist
+            self.parentContents = playlists
         default:
             break
         }
+    }
+    
+    func popToParent() {
+        guard let parentContents = self.parentContents else { return }
+        self.contents = parentContents
+        self.parentContents = nil
+        self.parentContent = nil
+        // Polish: mechanism to scroll to original parent
     }
     
     
