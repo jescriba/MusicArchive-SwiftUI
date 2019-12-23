@@ -10,13 +10,9 @@ import Foundation
 import SwiftUI
 
 struct ContentView: View {
-    @State var loading: Bool = false
-    @State var contentType: Content.Type = Artist.self
-    @EnvironmentObject var content: ContentObserver
+    @EnvironmentObject var contentObserver: ContentObserver
     @EnvironmentObject var audioPlayer: AudioPlayer
-    @State var currentPage: Int = 1
     @State var currentMaxIndex = 0
-    let pageSize: Int = 20
 
     init() {
          UITableView.appearance().showsVerticalScrollIndicator = false
@@ -24,109 +20,83 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if content.contents.first?.typeString() != nil {
-                Text(content.contents.first!.typeString())
+            if contentObserver.contents.first?.typeString() != nil {
+                Text(contentObserver.contents.first!.typeString())
                     .fontWeight(.heavy)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
             }
-            if loading {
+            if contentObserver.isLoading {
                 Text("Loading...")
             }
             Spacer()
-            if content.parentContent?.name != nil {
-                Text(content.parentContent!.name)
+            if contentObserver.parentContent?.name != nil {
+                Text(contentObserver.parentContent!.name)
             }
             Spacer()
-            List(self.content.contents.enumerated().map({ $0 }), id: \.element.name) { index, content in
+            List(self.contentObserver.contents.enumerated().map({ $0 }), id: \.element.name) { index, content in
                 ContentRow(content: content)
                     .onTapGesture {
-                        self.content.selectionAction(content)
+                        self.contentObserver.selectionAction(content)
                 }.onAppear(perform: {
-                    guard self.content.parentContent == nil else { return }
+                    guard self.contentObserver.parentContent == nil else { return }
                     
-                    if (index % self.pageSize) == 0 &&
+                    if (index % self.contentObserver.pageSize) == 0 &&
                         index > 0 &&
                         index > self.currentMaxIndex {
                         self.currentMaxIndex = index // Prevent scrolling _up_ from incrementing current page
                         DispatchQueue.global(qos: .background).async {
-                            self.currentPage += 1
-                            self.getMoreContent()
+                            self.contentObserver.getMoreContent()
                         }
                     }
                 })
-            }
+            }.gesture(DragGesture()
+                .onEnded({ gesture in
+                    if gesture.startLocation.x < CGFloat(100.0) && gesture.location.x > 60 {
+                        print("edge pan")
+                    }
+                 }
+            ))
             Spacer()
             HStack {
                 Spacer()
                 Button(action: {
-                    self.getContent(type: Album.self)
+                    self.contentObserver.getContent(type: Album.self)
+                    self.currentMaxIndex = 0
                 }) {
                     Text("Albums")
-                        .fontWeight(contentType == Album.self ? .heavy : .semibold)
+                        .fontWeight(self.contentObserver.contentType == Album.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
-                    self.getContent(type: Artist.self)
+                    self.contentObserver.getContent(type: Artist.self)
+                    self.contentObserver.parentContent = nil
+                    self.currentMaxIndex = 0
                 }) {
                     Text("Artists")
-                        .fontWeight(contentType == Artist.self ? .heavy : .semibold)
+                        .fontWeight(self.contentObserver.contentType == Artist.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
-                    self.getContent(type: Song.self)
+                    self.contentObserver.getContent(type: Song.self)
+                    self.contentObserver.parentContent = nil
+                    self.currentMaxIndex = 0
                 }) {
                     Text("Songs")
-                        .fontWeight(contentType == Song.self ? .heavy : .semibold)
+                        .fontWeight(self.contentObserver.contentType == Song.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
-                    self.getContent(type: Playlist.self)
+                    self.contentObserver.getContent(type: Playlist.self)
+                    self.contentObserver.parentContent = nil
+                    self.currentMaxIndex = 0
                 }) {
                     Text("Playlists")
-                        .fontWeight(contentType == Playlist.self ? .heavy : .semibold)
+                        .fontWeight(self.contentObserver.contentType == Playlist.self ? .heavy : .semibold)
                 }
                 Spacer()
             }
             Spacer()
             AudioBar().environmentObject(audioPlayer)
-        }
-    }
-    
-    func getContent<T: Content>(type: T.Type) {
-        self.content.parentContent = nil
-        self.contentType = type
-        self.currentMaxIndex = 0
-        self.currentPage = 0
-        self.loading = true
-        ArchiveClient.shared.getContent(type: type, completionHandler: { fetchedContent in
-            DispatchQueue.main.async {
-                self.content.contents = fetchedContent
-                self.loading = false
-            }
-        })
-    }
-    func getMoreContent<T: Content>(type: T.Type, page: Int) {
-        self.loading = true
-        ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
-            DispatchQueue.main.async {
-                self.content.contents.append(contentsOf: fetchedContent)
-                self.loading = false
-            }
-        })
-    }
-    func getMoreContent() {
-        // dry https://stackoverflow.com/questions/45234233/why-cant-i-pass-a-protocol-type-to-a-generic-t-type-parameter
-        switch contentType {
-        case is Song.Type:
-            getMoreContent(type: Song.self, page: self.currentPage)
-        case is Album.Type:
-            getMoreContent(type: Album.self, page: self.currentPage)
-        case is Artist.Type:
-            getMoreContent(type: Artist.self, page: self.currentPage)
-        case is Playlist.Type:
-            getMoreContent(type: Playlist.self, page: self.currentPage)
-        default:
-            break
         }
     }
 }

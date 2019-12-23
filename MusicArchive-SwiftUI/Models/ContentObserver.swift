@@ -9,6 +9,11 @@
 import Foundation
 
 class ContentObserver: ObservableObject {
+    @Published var isLoading: Bool = false
+    @Published var contentType: Content.Type = Artist.self
+    var currentPage: Int = 1
+    let pageSize: Int = 20
+    
     @Published var contents = [Content]()
     @Published var parentContent: Content?
     lazy var selectionAction: (_: Content) -> Void = { selectedContent in
@@ -39,6 +44,42 @@ class ContentObserver: ObservableObject {
             }
             self.contents = playlist.songs
             self.parentContent = playlist
+        default:
+            break
+        }
+    }
+    
+    
+    func getContent<T: Content>(type: T.Type, page: Int = 1, append: Bool = false) {
+        DispatchQueue.main.async {
+            self.currentPage = page
+            self.contentType = type
+            self.isLoading = true
+        }
+        ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
+            DispatchQueue.main.async {
+                if append {
+                    self.contents.append(contentsOf: fetchedContent)
+                } else {
+                    self.contents = fetchedContent
+                }
+                self.isLoading = false
+            }
+        })
+    }
+    
+    func getMoreContent() {
+        // dry https://stackoverflow.com/questions/45234233/why-cant-i-pass-a-protocol-type-to-a-generic-t-type-parameter
+        self.currentPage += 1
+        switch contentType {
+        case is Song.Type:
+            getContent(type: Song.self, page: self.currentPage, append: true)
+        case is Album.Type:
+            getContent(type: Album.self, page: self.currentPage, append: true)
+        case is Artist.Type:
+            getContent(type: Artist.self, page: self.currentPage, append: true)
+        case is Playlist.Type:
+            getContent(type: Playlist.self, page: self.currentPage, append: true)
         default:
             break
         }
