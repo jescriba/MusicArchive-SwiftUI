@@ -36,8 +36,8 @@ class ArchiveClient {
     
     private init() { }
     
-    func getContent<T: Content>(type: T.Type, completionHandler: @escaping  (([T]) -> ())) {
-        guard let url = urlForContent(type: type) else { return }
+    func getContent<T: Content>(type: T.Type, page: Int = 1, completionHandler: @escaping  (([T]) -> ())) {
+        guard let url = urlForContent(type: type, page: page) else { return }
         var request = URLRequest(url: url)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
@@ -49,16 +49,16 @@ class ArchiveClient {
             }).resume()
     }
     
-    private func urlForContent<T: Content>(type: T.Type) -> URL? {
+    private func urlForContent<T: Content>(type: T.Type, page: Int) -> URL? {
         switch type {
         case is Song.Type:
-            return URL(string: "\(endpoint)/songs")
+            return URL(string: "\(endpoint)/songs?page=\(page)")
         case is Artist.Type:
-            return URL(string: "\(endpoint)/artists")
+            return URL(string: "\(endpoint)/artists?page=\(page)")
         case is Album.Type:
-            return URL(string: "\(endpoint)/albums")
+            return URL(string: "\(endpoint)/albums?page=\(page)")
         case is Playlist.Type:
-            return URL(string: "\(endpoint)/playlists")
+            return URL(string: "\(endpoint)/playlists?page=\(page)")
         default:
             return nil
         }

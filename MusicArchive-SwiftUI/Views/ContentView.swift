@@ -6,28 +6,20 @@
 //  Copyright © 2019 joshua. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
-
-enum ContentType {
-    case artist
-    case song
-    case album
-    case playlist
-}
 
 struct ContentView: View {
     @State var loading: Bool = false
-    @State var contentType: ContentType = .artist
+    @State var contentType: Content.Type = Artist.self
     @EnvironmentObject var content: ContentObserver
     @EnvironmentObject var audioPlayer: AudioPlayer
-    func getContent<T: Content>(type: T.Type) {
-        self.loading = true
-        ArchiveClient.shared.getContent(type: type, completionHandler: { fetchedContent -> () in
-            DispatchQueue.main.async {
-                self.content.content = fetchedContent
-                self.loading = false
-            }
-        })
+    @State var currentPage: Int = 1
+    @State var currentMaxIndex = 0
+    let pageSize: Int = 20
+
+    init() {
+         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     
     var body: some View {
@@ -41,50 +33,94 @@ struct ContentView: View {
                 Text("Loading...")
             }
             Spacer()
-            List(content.content, id: \.name) { content in
+            //List(self.content.content.indices, id: \.self) { index in
+            List(self.content.content.enumerated().map({ $0 }), id: \.element.name) { index, content in
                 ContentRow(content: content)
                     .onTapGesture {
                         self.content.selectionAction(content)
-                }
+                }.onAppear(perform: {
+                    if (index % self.pageSize) == 0 &&
+                        index > 0 &&
+                        index > self.currentMaxIndex {
+                        self.currentMaxIndex = index // Prevent scrolling _up_ from incrementing current page
+                        DispatchQueue.global(qos: .background).async {
+                            self.currentPage += 1
+                            self.getMoreContent()
+                        }
+                    }
+                })
             }
             Spacer()
             HStack {
                 Spacer()
                 Button(action: {
                     self.getContent(type: Album.self)
-                    self.contentType = .album
                 }) {
                     Text("Albums")
-                        .fontWeight(contentType == .album ? .heavy : .semibold)
+                        .fontWeight(contentType == Album.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Artist.self)
-                    self.contentType = .artist
                 }) {
                     Text("Artists")
-                        .fontWeight(contentType == .artist ? .heavy : .semibold)
+                        .fontWeight(contentType == Artist.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Song.self)
-                    self.contentType = .song
                 }) {
                     Text("Songs")
-                        .fontWeight(contentType == .song ? .heavy : .semibold)
+                        .fontWeight(contentType == Song.self ? .heavy : .semibold)
                 }
                 Spacer()
                 Button(action: {
                     self.getContent(type: Playlist.self)
-                    self.contentType = .playlist
                 }) {
                     Text("Playlists")
-                        .fontWeight(contentType == .playlist ? .heavy : .semibold)
+                        .fontWeight(contentType == Playlist.self ? .heavy : .semibold)
                 }
                 Spacer()
             }
             Spacer()
             AudioBar().environmentObject(audioPlayer)
+        }
+    }
+    
+    func getContent<T: Content>(type: T.Type) {
+        self.contentType = type
+        self.currentMaxIndex = 0
+        self.currentPage = 0
+        self.loading = true
+        ArchiveClient.shared.getContent(type: type, completionHandler: { fetchedContent in
+            DispatchQueue.main.async {
+                self.content.content = fetchedContent
+                self.loading = false
+            }
+        })
+    }
+    func getMoreContent<T: Content>(type: T.Type, page: Int) {
+        self.loading = true
+        ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
+            DispatchQueue.main.async {
+                self.content.content.append(contentsOf: fetchedContent)
+                self.loading = false
+            }
+        })
+    }
+    func getMoreContent() {
+        // dry https://stackoverflow.com/questions/45234233/why-cant-i-pass-a-protocol-type-to-a-generic-t-type-parameter
+        switch contentType {
+        case is Song.Type:
+            getMoreContent(type: Song.self, page: self.currentPage)
+        case is Album.Type:
+            getMoreContent(type: Album.self, page: self.currentPage)
+        case is Artist.Type:
+            getMoreContent(type: Artist.self, page: self.currentPage)
+        case is Playlist.Type:
+            getMoreContent(type: Playlist.self, page: self.currentPage)
+        default:
+            break
         }
     }
 }
