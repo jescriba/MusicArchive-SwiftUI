@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentObserver = ContentObserver()
         ArchiveClient.shared.getContent(type: Artist.self, completionHandler: { fetchedContent -> () in
             DispatchQueue.main.async {
-                contentObserver.content = fetchedContent
+                contentObserver.contents = fetchedContent
             }
         })
         

@@ -9,13 +9,14 @@
 import Foundation
 
 class ContentObserver: ObservableObject {
-    @Published var content = [Content]()
+    @Published var contents = [Content]()
+    @Published var parentContent: Content?
     lazy var selectionAction: (_: Content) -> Void = { selectedContent in
-        switch self.content.first {
+        switch self.contents.first {
         case is Artist:
             break
         case is Song:
-            guard let songs = self.content as? [Song],
+            guard let songs = self.contents as? [Song],
                 let song = selectedContent as? Song,
                 let index = songs.firstIndex(where: { $0 == song }) else {
                     return
@@ -25,18 +26,19 @@ class ContentObserver: ObservableObject {
                 AudioPlayer.shared.queue(songs: Array(songs.dropFirst(index + 1)))
             }
         case is Album:
-            guard let albums = self.content as? [Album],
+            guard let albums = self.contents as? [Album],
                 let album = selectedContent as? Album else {
                     return
             }
-            self.content = album.songs
+            self.contents = album.songs
+            self.parentContent = album
         case is Playlist:
-            guard let playlists = self.content as? [Playlist],
+            guard let playlists = self.contents as? [Playlist],
                 let playlist = selectedContent as? Playlist else {
                     return
             }
-            self.content = playlist.songs
-            break
+            self.contents = playlist.songs
+            self.parentContent = playlist
         default:
             break
         }

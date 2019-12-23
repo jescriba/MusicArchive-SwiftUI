@@ -24,8 +24,8 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if content.content.first?.typeString() != nil {
-                Text(content.content.first!.typeString())
+            if content.contents.first?.typeString() != nil {
+                Text(content.contents.first!.typeString())
                     .fontWeight(.heavy)
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
             }
@@ -33,12 +33,17 @@ struct ContentView: View {
                 Text("Loading...")
             }
             Spacer()
-            //List(self.content.content.indices, id: \.self) { index in
-            List(self.content.content.enumerated().map({ $0 }), id: \.element.name) { index, content in
+            if content.parentContent?.name != nil {
+                Text(content.parentContent!.name)
+            }
+            Spacer()
+            List(self.content.contents.enumerated().map({ $0 }), id: \.element.name) { index, content in
                 ContentRow(content: content)
                     .onTapGesture {
                         self.content.selectionAction(content)
                 }.onAppear(perform: {
+                    guard self.content.parentContent == nil else { return }
+                    
                     if (index % self.pageSize) == 0 &&
                         index > 0 &&
                         index > self.currentMaxIndex {
@@ -88,13 +93,14 @@ struct ContentView: View {
     }
     
     func getContent<T: Content>(type: T.Type) {
+        self.content.parentContent = nil
         self.contentType = type
         self.currentMaxIndex = 0
         self.currentPage = 0
         self.loading = true
         ArchiveClient.shared.getContent(type: type, completionHandler: { fetchedContent in
             DispatchQueue.main.async {
-                self.content.content = fetchedContent
+                self.content.contents = fetchedContent
                 self.loading = false
             }
         })
@@ -103,7 +109,7 @@ struct ContentView: View {
         self.loading = true
         ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
             DispatchQueue.main.async {
-                self.content.content.append(contentsOf: fetchedContent)
+                self.content.contents.append(contentsOf: fetchedContent)
                 self.loading = false
             }
         })
