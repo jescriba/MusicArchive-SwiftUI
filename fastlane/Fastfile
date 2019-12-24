@@ -18,12 +18,16 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new build to Test Flight"
   lane :beta do 
+    cert
+    sigh(force: true)
     build_app(scheme: "MusicArchive-SwiftUI")
-    upload_to_test_flight
+    upload_to_testflight
   end
 
   desc "Push a new release build to the App Store"
   lane :release do
+    cert
+    sigh(force: true)
     build_app(scheme: "MusicArchive-SwiftUI")
     upload_to_app_store
   end

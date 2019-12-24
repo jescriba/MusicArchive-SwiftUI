@@ -518,6 +518,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "MusicArchive-SwiftUI/MusicArchive-SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicArchive-SwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = GFSP92A3FB;
 				ENABLE_PREVIEWS = YES;
@@ -542,9 +543,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "MusicArchive-SwiftUI/MusicArchive-SwiftUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicArchive-SwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = GFSP92A3FB;
 				ENABLE_PREVIEWS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "MusicArchive-SwiftUI/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -555,6 +558,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "joshua-MusicArchive";
 				PRODUCT_NAME = Archive;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
