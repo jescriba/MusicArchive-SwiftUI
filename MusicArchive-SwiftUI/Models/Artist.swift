@@ -9,6 +9,7 @@
 import Foundation
 
 struct Artist: Codable, Content {
+    var id: Int
     var name: String
     var description: String?
 }

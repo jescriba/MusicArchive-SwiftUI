@@ -23,6 +23,6 @@ struct ContentRow: View {
 
 struct ContentRowPreview: PreviewProvider {
     static var previews: some View {
-        ContentRow(content: Song(name: "Song", description: ""))
+        ContentRow(content: Song(id: 0, name: "Song", description: ""))
     }
 }

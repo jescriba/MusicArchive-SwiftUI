@@ -12,6 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var contentObserver: ContentObserver
     @EnvironmentObject var audioPlayer: AudioPlayer
+    @EnvironmentObject var authorizer: Authorizer
     @State var currentMaxIndex = 0
 
     init() {
@@ -33,7 +34,7 @@ struct ContentView: View {
                 Text(contentObserver.parentContent!.name)
             }
             Spacer()
-            List(self.contentObserver.contents.enumerated().map({ $0 }), id: \.element.name) { index, content in
+            List(self.contentObserver.contents.enumerated().map({ $0 }), id: \.element.id) { index, content in
                 ContentRow(content: content)
                     .onTapGesture {
                         self.contentObserver.selectionAction(content)
@@ -95,7 +96,7 @@ struct ContentView: View {
             }
             Spacer()
             AudioBar().environmentObject(audioPlayer)
-        }
+        }.overlay(!self.authorizer.authorized ? AuthView().environmentObject(authorizer).background(Color(UIColor.systemBackground)) : nil)
     }
 }
 

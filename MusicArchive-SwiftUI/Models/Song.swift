@@ -9,17 +9,8 @@
 import Foundation
 
 struct Song: Codable, Equatable, Content {
+    var id: Int
     var name: String
     var description: String?
     var url: String?
-    
-    init(name: String, description: String) {
-        self.name = name
-        self.description = description
-    }
-    
-    static func ==(lhs: Song, rhs: Song) -> Bool {
-        return lhs.name == rhs.name &&
-            lhs.url == rhs.url
-    }
 }

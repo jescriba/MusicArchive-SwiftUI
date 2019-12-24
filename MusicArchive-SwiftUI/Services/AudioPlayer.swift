@@ -66,6 +66,15 @@ class AudioPlayer: NSObject, ObservableObject {
             }).sink(receiveValue: { time in
                 // TODO in app slider or something
             })
+        
+        self.trackTimeSubscriber = _player.publisher(for: \.currentItem)
+            .filter({ $0 != nil })
+            .flatMap({ item -> NSObject.KeyValueObservingPublisher<AVPlayerItem, CMTime> in
+                let publisher = item!.publisher(for: \.duration)
+                return publisher
+            }).sink(receiveValue: { [weak self] duration in
+                self?.updateInfoCenter(duration: duration)
+            })
                 
         self.itemSubscriber = _player.publisher(for: \.currentItem)
             .sink(receiveValue: { [weak self] item in
@@ -78,6 +87,8 @@ class AudioPlayer: NSObject, ObservableObject {
                 self?.currentSong = song
                 self?.updateInfoCenter(song: song, duration: songItem.duration)
             })
+        
+        
         
         self.timeControlSubscriber = _player.publisher(for: \.timeControlStatus)
             .sink(receiveValue: { timeControlStatus in
@@ -227,8 +238,13 @@ class AudioPlayer: NSObject, ObservableObject {
         nowPlayingInfo[MPMediaItemPropertyArtist] = "-"
         nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "-"
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration.seconds
-
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    }
+    
+    private func updateInfoCenter(duration: CMTime) {
+        guard var updateInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo else { return }
+        updateInfo[MPMediaItemPropertyPlaybackDuration] = duration.seconds
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = updateInfo
     }
     
 }

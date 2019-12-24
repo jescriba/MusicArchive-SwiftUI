@@ -20,13 +20,21 @@ class ContentObserver: ObservableObject {
     lazy var selectionAction: (_: Content) -> Void = { selectedContent in
         switch self.contents.first {
         case is Artist:
-            break
+            guard let artists = self.contents as? [Artist],
+                let artist = selectedContent as? Artist else {
+                    return
+            }
+            self.contents = [Song]()
+            self.getContent(type: Song.self, parentType: Artist.self)
+            self.parentContent = artist
+            self.parentContents = artists
         case is Song:
             guard let songs = self.contents as? [Song],
                 let song = selectedContent as? Song,
                 let index = songs.firstIndex(where: { $0 == song }) else {
                     return
             }
+            AudioPlayer.shared.clearQueue()
             AudioPlayer.shared.play(song: song)
             DispatchQueue.global().async {
                 AudioPlayer.shared.queue(songs: Array(songs.dropFirst(index + 1)))
@@ -60,12 +68,21 @@ class ContentObserver: ObservableObject {
         // Polish: mechanism to scroll to original parent
     }
     
+    func getContent<T: Content>(type: T.Type,
+                                page: Int = 1,
+                                append: Bool = false) {
+        getContent(type: type, parentType: nil as Song.Type?, page: page, append: append)
+    }
     
-    func getContent<T: Content>(type: T.Type, page: Int = 1, append: Bool = false) {
+    
+    func getContent<T: Content, U: Content>(type: T.Type,
+                                            parentType: U.Type? = nil,
+                                            page: Int = 1,
+                                            append: Bool = false) {
         self.currentPage = page
         self.contentType = type
         self.isLoading = true
-        ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
+        ArchiveClient.shared.getContent(type: type, parentType: parentType, page: page, completionHandler: { fetchedContent in
             DispatchQueue.main.async {
                 if append {
                     self.contents.append(contentsOf: fetchedContent)

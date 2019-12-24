@@ -9,6 +9,7 @@
 import Foundation
 
 struct Album: Codable, Content {
+    var id: Int
     var name: String
     var description: String?
     var songs: [Song]
