@@ -27,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         })
         
+        _ = Authorizer.shared.authorize()
         let contentView = ContentView()
             .environmentObject(contentObserver)
             .environmentObject(AudioPlayer.shared)

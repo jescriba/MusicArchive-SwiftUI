@@ -21,7 +21,21 @@ class Authorizer: ObservableObject {
     
     func authorize(username: String, password: String) -> AuthError? {
         guard self.username == username && self.password == password else { return .generic }
+        store(token: username)
         authorized = true
         return nil
+    }
+    
+    func authorize(token: String? = nil) -> AuthError? {
+        // Polish: real web token auth
+        guard UserDefaults.standard.value(forKey: "authToken") != nil else {
+            return .generic
+        }
+        authorized = true
+        return nil
+    }
+    
+    func store(token: String) {
+        UserDefaults.standard.set(token, forKey: "authToken")
     }
 }

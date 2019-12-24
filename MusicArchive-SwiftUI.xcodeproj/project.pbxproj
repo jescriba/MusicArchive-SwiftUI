@@ -47,7 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		42245A2B239DF8DD004A8E89 /* Music Archive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music Archive.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		42245A2B239DF8DD004A8E89 /* Archive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Archive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42245A2E239DF8DD004A8E89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42245A30239DF8DD004A8E89 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		42245A32239DF8DD004A8E89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		42245A2C239DF8DD004A8E89 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				42245A2B239DF8DD004A8E89 /* Music Archive.app */,
+				42245A2B239DF8DD004A8E89 /* Archive.app */,
 				42245A41239DF8E3004A8E89 /* MusicArchive-SwiftUITests.xctest */,
 				42245A4C239DF8E3004A8E89 /* MusicArchive-SwiftUIUITests.xctest */,
 			);
@@ -223,7 +223,7 @@
 			);
 			name = "MusicArchive-SwiftUI";
 			productName = "MusicArchive-SwiftUI";
-			productReference = 42245A2B239DF8DD004A8E89 /* Music Archive.app */;
+			productReference = 42245A2B239DF8DD004A8E89 /* Archive.app */;
 			productType = "com.apple.product-type.application";
 		};
 		42245A40239DF8E3004A8E89 /* MusicArchive-SwiftUITests */ = {
@@ -528,7 +528,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "joshua-MusicArchive";
-				PRODUCT_NAME = "Music Archive";
+				PRODUCT_NAME = Archive;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -551,7 +551,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "joshua-MusicArchive";
-				PRODUCT_NAME = "Music Archive";
+				PRODUCT_NAME = Archive;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
