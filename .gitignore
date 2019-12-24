@@ -90,3 +90,8 @@ fastlane/test_output
 iOSInjectionProject/
 fastlane/Appfile
 fastlane/metadata
+*.DS_Store
+*.cer
+*.certSigningRequest
+*.p12
+*.mobileprovision
