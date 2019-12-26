@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420BC47D23B3543D00303E5E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420BC47C23B3543D00303E5E /* LoadingView.swift */; };
 		42245A2F239DF8DD004A8E89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A2E239DF8DD004A8E89 /* AppDelegate.swift */; };
 		42245A31239DF8DD004A8E89 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A30239DF8DD004A8E89 /* SceneDelegate.swift */; };
 		42245A33239DF8DD004A8E89 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42245A32239DF8DD004A8E89 /* ContentView.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		420BC47C23B3543D00303E5E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		42245A2B239DF8DD004A8E89 /* Archive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Archive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42245A2E239DF8DD004A8E89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42245A30239DF8DD004A8E89 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				42245A67239E0ACC004A8E89 /* ContentRow.swift */,
 				42245A69239E0ADC004A8E89 /* AudioBar.swift */,
 				42593CA923B19B410018DA66 /* AuthView.swift */,
+				420BC47C23B3543D00303E5E /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				4282160923A6F56900180FBE /* ContentObserver.swift in Sources */,
 				42245A2F239DF8DD004A8E89 /* AppDelegate.swift in Sources */,
 				42245A31239DF8DD004A8E89 /* SceneDelegate.swift in Sources */,
+				420BC47D23B3543D00303E5E /* LoadingView.swift in Sources */,
 				42245A6A239E0ADC004A8E89 /* AudioBar.swift in Sources */,
 				42245A33239DF8DD004A8E89 /* ContentView.swift in Sources */,
 				42245A70239E0BFE004A8E89 /* Album.swift in Sources */,

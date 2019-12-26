@@ -27,7 +27,7 @@ struct ContentView: View {
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
             }
             if contentObserver.isLoading {
-                Text("Loading...")
+                LoadingView().frame(width: 100, height: 20, alignment: .top)
             }
             Spacer()
             if contentObserver.parentContent?.name != nil {
