@@ -10,6 +10,7 @@ import Foundation
 
 struct Artist: Codable, Content {
     var id: Int
+    var createdAt: Date
     var name: String
     var description: String?
 }

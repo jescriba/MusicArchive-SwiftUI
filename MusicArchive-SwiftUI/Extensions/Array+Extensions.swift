@@ -18,3 +18,25 @@ extension Array {
         self.append(item)
     }
 }
+
+extension Array where Element == Content {
+    
+    mutating func sort(by sortType: SortType) {
+        // dry - thought this would originally need to be more custom
+        switch sortType {
+        case .id:
+            self.sort(by: { $0.id < $1.id })
+        case .name:
+            self.sort(by: { $0.name < $1.name })
+        case .date:
+            self.sort(by: { $0.createdAt < $1.createdAt })
+        }
+    }
+    
+    func sorted(by sortType: SortType) -> [Element] {
+        var arr = self
+        arr.sort(by: sortType)
+        return arr
+    }
+    
+}

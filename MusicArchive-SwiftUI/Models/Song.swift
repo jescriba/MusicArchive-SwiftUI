@@ -10,7 +10,9 @@ import Foundation
 
 struct Song: Codable, Equatable, Content {
     var id: Int
+    var createdAt: Date
     var name: String
     var description: String?
     var url: String?
+    var recordedAt: Date?
 }

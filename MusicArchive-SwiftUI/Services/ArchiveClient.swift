@@ -8,55 +8,6 @@
 
 import Foundation
 
-enum ContentType: String {
-    case artist
-    case song
-    case album
-    case playlist
-}
-
-protocol Content: Codable {
-    var id: Int { get }
-    var name: String { get }
-    var description: String? { get }
-}
-
-extension Content {
-    static func typeString() -> String {
-        switch self {
-        case is Artist.Type:
-            return "Artists"
-        case is Song.Type:
-            return "Songs"
-        case is Playlist.Type:
-            return "Playlists"
-        case is Album.Type:
-            return "Albums"
-        default:
-            return ""
-        }
-    }
-    
-    func typeString() -> String {
-        switch self {
-        case is Artist:
-            return "Artists"
-        case is Song:
-            return "Songs"
-        case is Playlist:
-            return "Playlists"
-        case is Album:
-            return "Albums"
-        default:
-            return ""
-        }
-    }
-    
-    static func ==(lhs: Content, rhs: Content) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
 class ArchiveClient {
     static let shared = ArchiveClient()
     static let endpoint = "https://www.my-music-archive.com"
@@ -84,6 +35,8 @@ class ArchiveClient {
         URLSession.shared.dataTask(with: request, completionHandler: { (dataO, response, errror) in
             guard let data = dataO else { return }
             let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601())
             guard let content = try? decoder.decode(Array<T>.self, from: data) else { return }
             completionHandler(content)
             }).resume()

@@ -10,7 +10,7 @@ import Foundation
 
 class ContentObserver: ObservableObject {
     @Published var isLoading: Bool = false
-    @Published var contentType: Content.Type = Artist.self
+    @Published var contentType: Content.Type = Album.self
     var currentPage: Int = 1
     let pageSize: Int = 20
     

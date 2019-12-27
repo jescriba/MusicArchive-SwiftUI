@@ -13,6 +13,20 @@ struct ContentView: View {
     @EnvironmentObject var contentObserver: ContentObserver
     @EnvironmentObject var audioPlayer: AudioPlayer
     @EnvironmentObject var authorizer: Authorizer
+    @State var showSort = false
+    @State var sortType: SortType? = nil {
+        didSet {
+            let _ = contentObserver.parentContent
+            guard let _ = sortType else { return }
+            // polish - sorting for large content lags up
+            DispatchQueue.global(qos: .userInitiated).async {
+                let sorted = self.contentObserver.contents.sorted(by: self.sortType!)
+                DispatchQueue.main.async {
+                    self.contentObserver.contents = sorted
+                }
+            }
+        }
+    }
     @State var currentMaxIndex = 0
 
     init() {
@@ -31,7 +45,38 @@ struct ContentView: View {
             }
             Spacer()
             if contentObserver.parentContent?.name != nil {
-                Text(contentObserver.parentContent!.name)
+                HStack {
+                    Text(contentObserver.parentContent!.name)
+                    .underline()
+                        .padding(.horizontal, 30)
+                    Spacer()
+                    VStack {
+                        Button(action: {
+                            withAnimation {
+                                self.showSort = !self.showSort
+                            }
+                        }) {
+                            Text("Sort")
+                            Image(systemName: "chevron.right.circle")
+                                .rotationEffect(.degrees(showSort ? 90 : 0))
+                        }.padding(.horizontal, 30)
+                        
+                        // refactor
+                        if self.showSort {
+                            ForEach(SortType.types(), id: \.self, content: { type in
+                                HStack {
+                                    Text(type.rawValue)
+                                        .onTapGesture {
+                                            self.sortType = type
+                                    }
+                                    if type == self.sortType {
+                                        Image(systemName: "checkmark.circle")
+                                    }
+                                }
+                            }).transition(.move(edge: .trailing))
+                        }
+                    }
+                }
             }
             Spacer()
             List(self.contentObserver.contents.enumerated().map({ $0 }), id: \.element.id) { index, content in
