@@ -29,6 +29,7 @@
 		42593CAC23B1ACAE0018DA66 /* Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42593CAB23B1ACAE0018DA66 /* Authorizer.swift */; };
 		4282160923A6F56900180FBE /* ContentObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160823A6F56900180FBE /* ContentObserver.swift */; };
 		4282160B23A7003600180FBE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4282160A23A7003600180FBE /* AudioPlayer.swift */; };
+		42E975CB23C26E3F00D531F8 /* ContentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E975CA23C26E3F00D531F8 /* ContentContainerView.swift */; };
 		4DBC4EED23AC3B6C006BD946 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBC4EEC23AC3B6C006BD946 /* Array+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		4282160823A6F56900180FBE /* ContentObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObserver.swift; sourceTree = "<group>"; };
 		4282160A23A7003600180FBE /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		4282160C23A8B26A00180FBE /* MusicArchive-SwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MusicArchive-SwiftUI.entitlements"; sourceTree = "<group>"; };
+		42E975CA23C26E3F00D531F8 /* ContentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentContainerView.swift; sourceTree = "<group>"; };
 		4DBC4EEC23AC3B6C006BD946 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +194,7 @@
 				42245A69239E0ADC004A8E89 /* AudioBar.swift */,
 				42593CA923B19B410018DA66 /* AuthView.swift */,
 				420BC47C23B3543D00303E5E /* LoadingView.swift */,
+				42E975CA23C26E3F00D531F8 /* ContentContainerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				42245A2F239DF8DD004A8E89 /* AppDelegate.swift in Sources */,
 				42245A31239DF8DD004A8E89 /* SceneDelegate.swift in Sources */,
 				420BC47D23B3543D00303E5E /* LoadingView.swift in Sources */,
+				42E975CB23C26E3F00D531F8 /* ContentContainerView.swift in Sources */,
 				42245A6A239E0ADC004A8E89 /* AudioBar.swift in Sources */,
 				42245A33239DF8DD004A8E89 /* ContentView.swift in Sources */,
 				420BC48123B5CD1B00303E5E /* DateFormatter+Extensions.swift in Sources */,

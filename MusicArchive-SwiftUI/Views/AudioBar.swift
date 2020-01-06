@@ -32,6 +32,7 @@ struct AudioBar: View {
             Text(player.currentSong?.name ?? "n/a")
             Spacer()
         }
+        .background(Color(UIColor.systemBackground))
     }
 }
 

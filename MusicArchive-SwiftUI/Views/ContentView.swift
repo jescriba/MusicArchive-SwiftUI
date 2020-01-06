@@ -11,16 +11,15 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var contentObserver: ContentObserver
-    @EnvironmentObject var audioPlayer: AudioPlayer
-    @EnvironmentObject var authorizer: Authorizer
+    @State var hasLoaded = false
     @State var showSort = false
     @State var sortType: SortType? = nil {
         didSet {
             let _ = contentObserver.parentContent
-            guard let _ = sortType else { return }
+            guard let type = sortType else { return }
             // polish - sorting for large content lags up
             DispatchQueue.global(qos: .userInitiated).async {
-                let sorted = self.contentObserver.contents.sorted(by: self.sortType!)
+                let sorted = self.contentObserver.contents.sorted(by: type)
                 DispatchQueue.main.async {
                     self.contentObserver.contents = sorted
                 }
@@ -35,11 +34,9 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if contentObserver.contents.first?.typeString() != nil {
-                Text(contentObserver.contents.first!.typeString())
-                    .fontWeight(.heavy)
-                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-            }
+            Text(contentObserver.type.rawValue.capitalized)
+                .fontWeight(.heavy)
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
             if contentObserver.isLoading {
                 LoadingView().frame(width: 100, height: 20, alignment: .top)
             }
@@ -60,7 +57,6 @@ struct ContentView: View {
                             Image(systemName: "chevron.right.circle")
                                 .rotationEffect(.degrees(showSort ? 90 : 0))
                         }.padding(.horizontal, 30)
-                        
                         // refactor
                         if self.showSort {
                             ForEach(SortType.types(), id: \.self, content: { type in
@@ -85,7 +81,7 @@ struct ContentView: View {
                         self.contentObserver.selectionAction(content)
                 }.onAppear(perform: {
                     guard self.contentObserver.parentContent == nil else { return }
-                    
+
                     if (index % self.contentObserver.pageSize) == 0 &&
                         index > 0 &&
                         index > self.currentMaxIndex {
@@ -100,53 +96,17 @@ struct ContentView: View {
                     }
                  }
             ))
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: {
-                    self.contentObserver.getContent(type: Album.self)
-                    self.currentMaxIndex = 0
-                }) {
-                    Text("Albums")
-                        .fontWeight(self.contentObserver.contentType == Album.self ? .heavy : .semibold)
-                }
-                Spacer()
-                Button(action: {
-                    self.contentObserver.getContent(type: Artist.self)
-                    self.contentObserver.parentContent = nil
-                    self.currentMaxIndex = 0
-                }) {
-                    Text("Artists")
-                        .fontWeight(self.contentObserver.contentType == Artist.self ? .heavy : .semibold)
-                }
-                Spacer()
-                Button(action: {
-                    self.contentObserver.getContent(type: Song.self)
-                    self.contentObserver.parentContent = nil
-                    self.currentMaxIndex = 0
-                }) {
-                    Text("Songs")
-                        .fontWeight(self.contentObserver.contentType == Song.self ? .heavy : .semibold)
-                }
-                Spacer()
-                Button(action: {
-                    self.contentObserver.getContent(type: Playlist.self)
-                    self.contentObserver.parentContent = nil
-                    self.currentMaxIndex = 0
-                }) {
-                    Text("Playlists")
-                        .fontWeight(self.contentObserver.contentType == Playlist.self ? .heavy : .semibold)
-                }
-                Spacer()
+        }.onAppear(perform: {
+            if !self.hasLoaded {
+                self.contentObserver.getContent()
             }
-            Spacer()
-            AudioBar().environmentObject(audioPlayer)
-        }.overlay(!self.authorizer.authorized ? AuthView().environmentObject(authorizer).background(Color(UIColor.systemBackground)) : nil)
+            self.hasLoaded = true
+        })
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(ContentObserver())
+        ContentView().environmentObject(ContentObserver(type: .artists))
     }
 }

@@ -19,10 +19,36 @@ enum SortType: String {
 }
 
 enum ContentType: String {
-    case artist
-    case song
-    case album
-    case playlist
+    case artists
+    case songs
+    case albums
+    case playlists
+    
+    func imageName() -> String {
+        switch self {
+        case .artists:
+            return "person.3"
+        case .songs:
+            return "music.note"
+        case .albums:
+            return "rectangle.stack"
+        case .playlists:
+            return "music.note.list"
+        }
+    }
+    
+    func type() -> Content.Type {
+        switch self {
+        case .artists:
+            return Artist.self
+        case .songs:
+            return Song.self
+        case .albums:
+            return Album.self
+        case .playlists:
+            return Playlist.self
+        }
+    }
 }
 
 protocol Content: Codable {
