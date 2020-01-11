@@ -15,9 +15,9 @@ struct ContentContainerView: View {
     let contentTypes: [ContentType] = [.albums, .playlists, .songs, .artists]
     
     init() {
-        UITabBar.appearance().backgroundColor = .black
-        UITabBar.appearance().tintColor = .black
-        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().backgroundColor = .systemBackground
+        UITabBar.appearance().tintColor = .clear
+        UITabBar.appearance().barTintColor = .systemBackground
     }
     
     var body: some View {
@@ -30,9 +30,9 @@ struct ContentContainerView: View {
                         .tabItem {
                             Image(systemName: contentType.imageName())
                             Text(contentType.rawValue.capitalized)
-                        }.tag(contentType).padding(.bottom, 49)
+                    }.tag(contentType).padding(.bottom, 49)
                 })
-            }
+            }.edgesIgnoringSafeArea(.top)
             AudioBar()
                 .environmentObject(AudioPlayer.shared)
                 .offset(x: 0, y: -49)
