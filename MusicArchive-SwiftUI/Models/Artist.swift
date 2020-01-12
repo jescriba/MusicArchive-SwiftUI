@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Artist: Codable, Content {
+struct Artist: Codable, Equatable, Content {
     var id: Int
     var createdAt: Date
     var name: String

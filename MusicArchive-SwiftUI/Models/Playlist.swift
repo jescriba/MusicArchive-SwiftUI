@@ -14,4 +14,8 @@ struct Playlist: Codable, Content {
     var name: String
     var description: String?
     var songs: [Song]
+    
+    func children() -> [Content] {
+        return songs
+    }
 }

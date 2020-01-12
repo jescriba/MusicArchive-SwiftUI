@@ -56,9 +56,12 @@ protocol Content: Codable {
     var createdAt: Date { get }
     var name: String { get }
     var description: String? { get }
+    func children() -> [Content]
+    func detailDescription() -> String
 }
 
 extension Content {
+    
     static func typeString() -> String {
         switch self {
         case is Artist.Type:
@@ -91,6 +94,19 @@ extension Content {
     
     static func ==(lhs: Content, rhs: Content) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    // default to empty children
+    func children() -> [Content] {
+        return [Song]()
+    }
+    
+    func hasChildren() -> Bool {
+        return children().count > 0
+    }
+    
+    func detailDescription() -> String {
+        return " "
     }
 
 }

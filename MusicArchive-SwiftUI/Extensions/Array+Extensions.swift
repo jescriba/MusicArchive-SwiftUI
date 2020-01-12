@@ -19,6 +19,16 @@ extension Array {
     }
 }
 
+extension Array where Element == Artist {
+    
+    func names() -> String {
+        self.reduce("by: ", { result, artist in
+            "\(result) \(artist.name)"
+        })
+    }
+    
+}
+
 extension Array where Element == Content {
     
     mutating func sort(by sortType: SortType) {

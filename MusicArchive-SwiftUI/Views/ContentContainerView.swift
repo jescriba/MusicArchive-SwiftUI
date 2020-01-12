@@ -18,6 +18,9 @@ struct ContentContainerView: View {
         UITabBar.appearance().backgroundColor = .systemBackground
         UITabBar.appearance().tintColor = .clear
         UITabBar.appearance().barTintColor = .systemBackground
+        UITableView.appearance().tableFooterView = UIView()
+        UITableView.appearance().showsVerticalScrollIndicator = false
+        UINavigationBar.appearance().barTintColor = .systemBackground
     }
     
     var body: some View {
@@ -32,11 +35,12 @@ struct ContentContainerView: View {
                             Text(contentType.rawValue.capitalized)
                     }.tag(contentType).padding(.bottom, 49)
                 })
-            }.edgesIgnoringSafeArea(.top)
+            }
             AudioBar()
                 .environmentObject(AudioPlayer.shared)
                 .offset(x: 0, y: -49)
         }
+        .edgesIgnoringSafeArea(.top)
         .overlay(!self.authorizer.authorized ? AuthView().environmentObject(authorizer).background(Color(UIColor.systemBackground)) : nil)
     }
 }

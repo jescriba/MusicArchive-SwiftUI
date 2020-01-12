@@ -14,4 +14,13 @@ struct Album: Codable, Content {
     var name: String
     var description: String?
     var songs: [Song]
+    var artists: [Artist]
+    
+    func children() -> [Content] {
+        return songs
+    }
+    
+    func detailDescription() -> String {
+        return artists.names()
+    }
 }
