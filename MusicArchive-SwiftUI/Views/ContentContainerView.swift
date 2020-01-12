@@ -17,6 +17,7 @@ struct ContentContainerView: View {
     init() {
         UITabBar.appearance().backgroundColor = .systemBackground
         UITabBar.appearance().tintColor = .clear
+        // SwiftUI bug? incorrectly changes bar tint to dark mode in light mode
         UITabBar.appearance().barTintColor = .systemBackground
         UITableView.appearance().tableFooterView = UIView()
         UITableView.appearance().showsVerticalScrollIndicator = false
