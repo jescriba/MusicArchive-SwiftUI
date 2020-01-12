@@ -24,7 +24,7 @@ struct DetailView: View {
             List(self.content.children().sorted(by: sortType), id: \.id) { child in
                 ContentRow(content: child)
                     .onTapGesture {
-                        guard let songs = self.content.children() as? [Song],
+                        guard let songs = self.content.children().sorted(by: self.sortType) as? [Song],
                             let song = child as? Song,
                             let index = songs.firstIndex(where: { $0 == song }) else {
                                 return
