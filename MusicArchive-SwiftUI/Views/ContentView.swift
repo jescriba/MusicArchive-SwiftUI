@@ -51,9 +51,9 @@ struct ContentView: View {
                     self.contentObserver.getContent()
                 }
                 self.hasLoaded = true
-            }).navigationBarTitle(self.contentObserver.type.rawValue.capitalized)
-            .navigationBarItems(trailing: self.contentObserver.isLoading ? AnyView(LoadingView().padding(.trailing, 20)) : AnyView(EmptyView()))
-        }
+            })
+            .navigationBarTitle(self.contentObserver.type.rawValue.capitalized)
+            .navigationBarItems(trailing: self.contentObserver.isLoading ? AnyView(LoadingView().padding(.trailing, 20)) : AnyView(EmptyView()))        }
     }
 }
 

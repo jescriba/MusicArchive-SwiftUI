@@ -43,5 +43,6 @@ struct ContentContainerView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .overlay(!self.authorizer.authorized ? AuthView().environmentObject(authorizer).background(Color(UIColor.systemBackground)) : nil)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
