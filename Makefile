@@ -13,8 +13,7 @@ inc-build:
 	@bin/inc_build_number.sh
 
 bootstrap:
-	@bin/brew_install.sh mint swiftformat
-	@yes | mint install yonaskolb/xcodegen
+	@bin/brew_install.sh xcodegen swiftformat
 	@bin/githooks/install.sh
 	@$(MAKE) build
 
