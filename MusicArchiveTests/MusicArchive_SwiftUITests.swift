@@ -1,16 +1,9 @@
-//
-//  MusicArchive_SwiftUITests.swift
-//  MusicArchive-SwiftUITests
-//
-//  Created by joshua on 12/8/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
+@testable import MusicArchive
 import XCTest
-@testable import MusicArchive_SwiftUI
 
 class MusicArchive_SwiftUITests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -26,9 +19,8 @@ class MusicArchive_SwiftUITests: XCTestCase {
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }
