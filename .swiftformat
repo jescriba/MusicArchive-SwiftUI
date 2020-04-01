@@ -1,0 +1,9 @@
+# https://github.com/nicklockwood/SwiftFormat#config
+--commas inline
+--exclude Carthage
+--header "Copyright (c) {year} Joshua Escribano-Fontanet"
+--indent 4
+--patternlet hoist
+--ranges nospace
+--semicolons never
+--wraparguments afterfirst
