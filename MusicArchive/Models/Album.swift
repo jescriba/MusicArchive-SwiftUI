@@ -1,10 +1,4 @@
-//
-//  Album.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/8/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 
@@ -15,12 +9,12 @@ struct Album: Codable, Content {
     var description: String?
     var songs: [Song]
     var artists: [Artist]
-    
+
     func children() -> [Content] {
-        return songs
+        songs
     }
-    
+
     func detailDescription() -> String {
-        return artists.names()
+        artists.names()
     }
 }

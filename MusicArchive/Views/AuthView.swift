@@ -1,10 +1,4 @@
-//
-//  AuthView.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/23/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 import SwiftUI
@@ -23,12 +17,12 @@ struct AuthView: View {
             if error != nil {
                 Text("auth error...")
                     .font(.callout)
-                .padding(10)
+                    .padding(10)
             }
             Text("Authorize")
                 .font(.headline)
             TextField("Username", text: $name)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal, 30)
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())

@@ -1,10 +1,4 @@
-//
-//  ContentContainerView.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 1/5/20.
-//  Copyright © 2020 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 import SwiftUI
@@ -13,17 +7,17 @@ struct ContentContainerView: View {
     @EnvironmentObject var authorizer: Authorizer
     @State var selectedContent: ContentType = .albums
     let contentTypes: [ContentType] = [.albums, .playlists, .songs, .artists]
-    
+
     init() {
         UITabBar.appearance().backgroundColor = .systemBackground
         UITabBar.appearance().tintColor = .clear
         // SwiftUI bug? incorrectly changes bar tint to dark mode in light mode so commented out...
-        //UITabBar.appearance().barTintColor = .systemBackground
+        // UITabBar.appearance().barTintColor = .systemBackground
         UITableView.appearance().tableFooterView = UIView()
         UITableView.appearance().showsVerticalScrollIndicator = false
         UINavigationBar.appearance().barTintColor = .systemBackground
     }
-    
+
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             TabView(selection: $selectedContent) {
@@ -34,7 +28,7 @@ struct ContentContainerView: View {
                         .tabItem {
                             Image(systemName: contentType.imageName())
                             Text(contentType.rawValue.capitalized)
-                    }.tag(contentType).padding(.bottom, 49)
+                        }.tag(contentType).padding(.bottom, 49)
                 })
             }
             AudioBar()

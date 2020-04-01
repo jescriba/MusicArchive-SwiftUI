@@ -1,22 +1,16 @@
-//
-//  ArchiveClient.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/8/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 
 class ArchiveClient {
     static let shared = ArchiveClient()
     static let endpoint = "https://www.my-music-archive.com"
-    
-    private init() { }
-    
+
+    private init() {}
+
     func getContent(type: ContentType,
                     page: Int = 1,
-                    completionHandler: @escaping  (([Content]) -> ())) {
+                    completionHandler: @escaping (([Content]) -> Void)) {
         guard let url = ArchiveClient.urlForContent(type: type, page: page) else { return }
         switch type {
         case .artists:
@@ -29,22 +23,22 @@ class ArchiveClient {
             getContent(type: Song.self, url: url, page: page, completionHandler: completionHandler)
         }
     }
-    
-    func getContent<T: Content>(type: T.Type, url: URL, page: Int = 1, completionHandler: @escaping  (([T]) -> ())) {
+
+    func getContent<T: Content>(type _: T.Type, url: URL, page _: Int = 1, completionHandler: @escaping (([T]) -> Void)) {
         var request = URLRequest(url: url)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
-        URLSession.shared.dataTask(with: request, completionHandler: { (dataO, response, errror) in
+        URLSession.shared.dataTask(with: request, completionHandler: { dataO, _, _ in
             guard let data = dataO else { return }
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601())
-            guard let content = try? decoder.decode(Array<T>.self, from: data) else { return }
+            guard let content = try? decoder.decode([T].self, from: data) else { return }
             completionHandler(content)
         }).resume()
     }
-    
+
     static func urlForContent(type: ContentType, page: Int) -> URL? {
-        return URL(string: "\(endpoint)/\(type.rawValue)?page=\(page)")
+        URL(string: "\(endpoint)/\(type.rawValue)?page=\(page)")
     }
 }

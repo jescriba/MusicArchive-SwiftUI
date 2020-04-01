@@ -1,17 +1,11 @@
-//
-//  AudioBar.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/8/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 import SwiftUI
 
 struct AudioBar: View {
     @EnvironmentObject var player: AudioPlayer
-    
+
     var body: some View {
         HStack {
             Button(action: {
@@ -23,7 +17,7 @@ struct AudioBar: View {
                 self.player.togglePlayState()
             }) {
                 player.state.image().resizable().frame(width: 40, height: 40, alignment: .center)
-                }.padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
+            }.padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
             Button(action: {
                 self.player.playNext()
             }) {
