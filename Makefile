@@ -9,6 +9,9 @@ ci_bootstrap:
 	@bundle install --quiet
 	@$(MAKE) build
 
+inc-build:
+	@bin/inc_build_number.sh
+
 bootstrap:
 	@bin/brew_install.sh mint swiftformat
 	@yes | mint install yonaskolb/xcodegen
@@ -18,4 +21,5 @@ bootstrap:
 .PHONY: bootstrap \
 				ci_bootstrap \
 				build \
+				inc-build \
 				test
