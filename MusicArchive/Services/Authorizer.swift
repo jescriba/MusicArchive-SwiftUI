@@ -1,10 +1,4 @@
-//
-//  Authorizer.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/23/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 
@@ -18,15 +12,15 @@ class Authorizer: ObservableObject {
     // Polish: real web session auth
     let username = "Sweet"
     let password = "Tunes"
-    
+
     func authorize(username: String, password: String) -> AuthError? {
-        guard self.username == username && self.password == password else { return .generic }
+        guard self.username == username, self.password == password else { return .generic }
         store(token: username)
         authorized = true
         return nil
     }
-    
-    func authorize(token: String? = nil) -> AuthError? {
+
+    func authorize(token _: String? = nil) -> AuthError? {
         // Polish: real web token auth
         guard UserDefaults.standard.value(forKey: "authToken") != nil else {
             return .generic
@@ -34,7 +28,7 @@ class Authorizer: ObservableObject {
         authorized = true
         return nil
     }
-    
+
     func store(token: String) {
         UserDefaults.standard.set(token, forKey: "authToken")
     }

@@ -1,22 +1,16 @@
-//
-//  AudioPlayer.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/15/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
-import Foundation
-import SwiftUI
 import AVFoundation
-import MediaPlayer
 import Combine
+import Foundation
+import MediaPlayer
+import SwiftUI
 
 enum PlayState: String {
     case playing
     case paused
     case stopped
-    
+
     func image() -> Image {
         switch self {
         case .playing:
@@ -31,12 +25,11 @@ enum PlayState: String {
 
 class SongPlayerItem: AVPlayerItem {
     var song: Song?
-    
+
     convenience init(url: URL, song: Song) {
         self.init(url: url)
         self.song = song
     }
-    
 }
 
 class AudioPlayer: NSObject, ObservableObject {
@@ -48,51 +41,49 @@ class AudioPlayer: NSObject, ObservableObject {
     private var itemSubscriber: AnyCancellable!
     private var timeControlSubscriber: AnyCancellable!
     private var trackTimeSubscriber: AnyCancellable!
-    
+
     override init() {
         super.init()
-        
+
         setupListeners()
         setupAudioSession()
     }
-    
+
     private func setupListeners() {
         // Set up subscribers
-        self.trackTimeSubscriber = _player.publisher(for: \.currentItem)
-            .filter({ $0 != nil })
-            .flatMap({ item -> NSObject.KeyValueObservingPublisher<AVPlayerItem, CMTimebase?> in
+        trackTimeSubscriber = _player.publisher(for: \.currentItem)
+            .filter { $0 != nil }
+            .flatMap { item -> NSObject.KeyValueObservingPublisher<AVPlayerItem, CMTimebase?> in
                 let publisher = item!.publisher(for: \.timebase)
                 return publisher
-            }).sink(receiveValue: { time in
-                // TODO in app slider or something
+            }.sink(receiveValue: { _ in
+                // TODO: in app slider or something
             })
-        
-        self.trackTimeSubscriber = _player.publisher(for: \.currentItem)
-            .filter({ $0 != nil })
-            .flatMap({ item -> NSObject.KeyValueObservingPublisher<AVPlayerItem, CMTime> in
+
+        trackTimeSubscriber = _player.publisher(for: \.currentItem)
+            .filter { $0 != nil }
+            .flatMap { item -> NSObject.KeyValueObservingPublisher<AVPlayerItem, CMTime> in
                 let publisher = item!.publisher(for: \.duration)
                 return publisher
-            }).sink(receiveValue: { [weak self] duration in
+            }.sink(receiveValue: { [weak self] duration in
                 self?.updateInfoCenter(duration: duration)
             })
-                
-        self.itemSubscriber = _player.publisher(for: \.currentItem)
+
+        itemSubscriber = _player.publisher(for: \.currentItem)
             .sink(receiveValue: { [weak self] item in
                 guard let songItem = item as? SongPlayerItem,
                     let song = songItem.song else {
-                        return
+                    return
                 }
-                
+
                 self?.previousSongPlayerItems.append(songItem, max: 40)
                 self?.currentSong = song
                 self?.updateInfoCenter(song: song, duration: songItem.duration)
             })
-        
-        
-        
-        self.timeControlSubscriber = _player.publisher(for: \.timeControlStatus)
+
+        timeControlSubscriber = _player.publisher(for: \.timeControlStatus)
             .sink(receiveValue: { timeControlStatus in
-                // TODO Actually update play icon state based on the player control status
+                // TODO: Actually update play icon state based on the player control status
                 if timeControlStatus == .playing {
                     MPNowPlayingInfoCenter.default().playbackState = .playing
                 } else if timeControlStatus == .paused {
@@ -102,7 +93,7 @@ class AudioPlayer: NSObject, ObservableObject {
                 }
             })
     }
-    
+
     private func setupAudioSession() {
         // Configure default audio session and remote command setup
         do {
@@ -124,7 +115,7 @@ class AudioPlayer: NSObject, ObservableObject {
         commandCenter.previousTrackCommand.addTarget(self, action: #selector(remotePlayPrevious))
         commandCenter.changePlaybackPositionCommand.addTarget(self, action: #selector(remoteChangePlaybackPosition(event:)))
     }
-    
+
     // Toggles the play state. If paused/stopped will trigger play otherwise will trigger paused
     func togglePlayState() {
         if state == .playing {
@@ -133,7 +124,7 @@ class AudioPlayer: NSObject, ObservableObject {
             play()
         }
     }
-    
+
     // Plays given song now if specified - otherwise plays currentTrack in queue
     func play(song songO: Song? = nil) {
         state = .playing
@@ -148,60 +139,60 @@ class AudioPlayer: NSObject, ObservableObject {
         insertNext(song: song)
         _player.play()
     }
-        
+
     // Adds song to play next if specified otherwise plays next song in the queue now.
     func playNext(song songO: Song? = nil) {
         guard let song = songO else {
             _player.advanceToNextItem()
             return
         }
-        
+
         insertNext(song: song)
     }
-    
-    // Plays the previous song that was in the queue. 
+
+    // Plays the previous song that was in the queue.
     func playPrevious() {
         guard let previousSongPlayer = previousSongPlayerItems.popLast() else {
             return
         }
         _player.replaceCurrentItem(with: previousSongPlayer)
     }
-    
+
     @objc func remotePlayPrevious() -> MPRemoteCommandHandlerStatus {
         playPrevious()
         return MPRemoteCommandHandlerStatus.success
     }
-    
+
     @objc func remotePlayNext() -> MPRemoteCommandHandlerStatus {
         playNext()
         return MPRemoteCommandHandlerStatus.success
     }
-    
+
     @objc func remotePlay() -> MPRemoteCommandHandlerStatus {
         play()
         return MPRemoteCommandHandlerStatus.success
     }
-    
+
     @objc func remotePause() -> MPRemoteCommandHandlerStatus {
         pause()
         return MPRemoteCommandHandlerStatus.success
     }
-    
+
     @objc func remoteChangePlaybackPosition(event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
-            _player.currentItem?.seek(to: CMTime(seconds: event.positionTime, preferredTimescale: .max)
-, completionHandler: nil)
+        _player.currentItem?.seek(to: CMTime(seconds: event.positionTime, preferredTimescale: .max),
+                                  completionHandler: nil)
         return MPRemoteCommandHandlerStatus.success
     }
-    
+
     private func insertNext(song: Song) {
         guard let urlString = song.url,
             let url = URL(string: urlString) else {
-                return
+            return
         }
         let playerItem = SongPlayerItem(url: url, song: song)
         _player.insert(playerItem, after: _player.currentItem)
     }
-    
+
     // Append song to the queue
     func playLater(song: Song) {
         guard let urlString = song.url,
@@ -209,29 +200,29 @@ class AudioPlayer: NSObject, ObservableObject {
         let playerItem = SongPlayerItem(url: url, song: song)
         _player.insert(playerItem, after: nil)
     }
-    
+
     // Pauses the current track
     @objc func pause() {
         state = .paused
         _player.pause()
     }
-    
+
     // Stops the current track
     func stop() {
         state = .stopped
         _player.seek(to: .zero)
         _player.pause()
     }
-    
+
     func queue(songs: [Song]) {
-        songs.forEach({ playLater(song: $0) })
+        songs.forEach { playLater(song: $0) }
     }
-    
+
     // Clears all the songs in the queue
     func clearQueue() {
         _player.removeAllItems()
     }
-    
+
     private func updateInfoCenter(song: Song, duration: CMTime) {
         var nowPlayingInfo = [String: Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = song.name
@@ -240,11 +231,10 @@ class AudioPlayer: NSObject, ObservableObject {
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration.seconds
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
-    
+
     private func updateInfoCenter(duration: CMTime) {
         guard var updateInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo else { return }
         updateInfo[MPMediaItemPropertyPlaybackDuration] = duration.seconds
         MPNowPlayingInfoCenter.default().nowPlayingInfo = updateInfo
     }
-    
 }

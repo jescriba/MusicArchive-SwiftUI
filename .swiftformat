@@ -4,6 +4,6 @@
 --header "Copyright (c) {year} Joshua Escribano-Fontanet"
 --indent 4
 --patternlet hoist
---ranges nospace
+--nospaceoperators
 --semicolons never
 --wraparguments afterfirst

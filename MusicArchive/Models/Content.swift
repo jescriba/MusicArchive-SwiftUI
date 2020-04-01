@@ -1,10 +1,4 @@
-//
-//  Content.swift
-//  MusicArchive-SwiftUI
-//
-//  Created by joshua on 12/26/19.
-//  Copyright © 2019 joshua. All rights reserved.
-//
+// Copyright (c) 2020 Joshua Escribano-Fontanet
 
 import Foundation
 
@@ -12,9 +6,9 @@ enum SortType: String {
     case id
     case name
     case date
-    
+
     static func types() -> [SortType] {
-        return [.id, .name, .date]
+        [.id, .name, .date]
     }
 }
 
@@ -23,7 +17,7 @@ enum ContentType: String {
     case songs
     case albums
     case playlists
-    
+
     func imageName() -> String {
         switch self {
         case .artists:
@@ -36,7 +30,7 @@ enum ContentType: String {
             return "music.note.list"
         }
     }
-    
+
     func type() -> Content.Type {
         switch self {
         case .artists:
@@ -61,7 +55,6 @@ protocol Content: Codable {
 }
 
 extension Content {
-    
     static func typeString() -> String {
         switch self {
         case is Artist.Type:
@@ -76,7 +69,7 @@ extension Content {
             return ""
         }
     }
-    
+
     func typeString() -> String {
         switch self {
         case is Artist:
@@ -91,22 +84,21 @@ extension Content {
             return ""
         }
     }
-    
-    static func ==(lhs: Content, rhs: Content) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    // default to empty children
-    func children() -> [Content] {
-        return [Song]()
-    }
-    
-    func hasChildren() -> Bool {
-        return children().count > 0
-    }
-    
-    func detailDescription() -> String {
-        return " "
+
+    static func == (lhs: Content, rhs: Content) -> Bool {
+        lhs.id == rhs.id
     }
 
+    // default to empty children
+    func children() -> [Content] {
+        [Song]()
+    }
+
+    func hasChildren() -> Bool {
+        children().count > 0
+    }
+
+    func detailDescription() -> String {
+        " "
+    }
 }
