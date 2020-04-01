@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MusicArchive-SwiftUI.xcodeproj">
+      location = "group:MusicArchive.xcodeproj">
    </FileRef>
 </Workspace>

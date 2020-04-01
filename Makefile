@@ -10,11 +10,8 @@ ci_bootstrap:
 	@$(MAKE) build
 
 bootstrap:
-	@bin/brew_install.sh mint swiftformat rbenv
-	@rbenv install -s
+	@bin/brew_install.sh mint swiftformat
 	@yes | mint install yonaskolb/xcodegen
-	@gem install -v 2.0.2 bundler --minimal-deps --conservative
-	@bundle install --quiet
 	@bin/githooks/install.sh
 	@$(MAKE) build
 
