@@ -23,8 +23,8 @@ targets:
       - path: MusicArchive
     transitivelyLinkDependencies: true
     settings:
-      ASSETCATALOG_COMPILER_APPICON_NAME: Assets
-      # CODE_SIGN_ENTITLEMENTS: MusicArchive.entitlements
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      CODE_SIGN_ENTITLEMENTS: MusicArchive/MusicArchive.entitlements
       TARGETED_DEVICE_FAMILY: 1,2
       DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
     scheme:
