@@ -1,0 +1,44 @@
+# attributes:
+#   LastSwiftMigration: 1010
+name: MusicArchive
+options:
+  bundleIdPrefix: com.my-music-archive
+  createIntermediateGroups: true
+  developmentLanguage: Base
+  groupSortPosition: top
+  indentWidth: 4
+  tabWidth: 4
+  usesTabs: false
+settings:
+  CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+  DEVELOPMENT_TEAM: GFSP92A3FB
+  IPHONEOS_DEPLOYMENT_TARGET: 13.0
+  SWIFT_VERSION: 5.2
+  SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+targets:
+  MusicArchive:
+    type: application
+    platform: iOS
+    sources:
+      - path: MusicArchive
+    transitivelyLinkDependencies: true
+    settings:
+      ASSETCATALOG_COMPILER_APPICON_NAME: Assets
+      # CODE_SIGN_ENTITLEMENTS: MusicArchive.entitlements
+      TARGETED_DEVICE_FAMILY: 1,2
+      DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+    scheme:
+      testTargets:
+        - MusicArchiveTests
+  MusicArchiveTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - MusicArchiveTests
+    dependencies:
+      - target: MusicArchive
+    info:
+      path: MusicArchiveTests/Info.plist
+    scheme:
+          testTargets:
+            - MusicArchiveTests
