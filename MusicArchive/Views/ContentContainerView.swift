@@ -35,7 +35,6 @@ struct ContentContainerView: View {
                 .environmentObject(AudioPlayer.shared)
                 .offset(x: 0, y: -49)
         }
-        .edgesIgnoringSafeArea(.top)
         .overlay(!self.authorizer.authorized ? AuthView().environmentObject(authorizer).background(Color(UIColor.systemBackground)) : nil)
         .navigationViewStyle(StackNavigationViewStyle())
     }
