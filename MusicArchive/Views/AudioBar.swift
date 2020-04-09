@@ -23,7 +23,7 @@ struct AudioBar: View {
             }) {
                 Image(systemName: "forward.fill").resizable().frame(width: 20, height: 20, alignment: .center)
             }.padding(.all, 10)
-            Text(player.currentSong?.name ?? "n/a")
+            Text(player.currentSong?.name ?? "")
             Spacer()
         }
         .background(Color(UIColor.systemBackground))
