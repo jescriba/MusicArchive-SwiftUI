@@ -43,6 +43,8 @@ targets:
   MusicArchiveTests:
     type: bundle.unit-test
     platform: iOS
+    settings:
+      SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) INTEGRATION_TESTS"
     sources:
       - MusicArchiveTests
     dependencies:

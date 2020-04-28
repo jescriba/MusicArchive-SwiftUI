@@ -12,93 +12,56 @@ enum SortType: String {
     }
 }
 
-enum ContentType: String {
+enum ContentType: Equatable {
     case artists
     case songs
     case albums
     case playlists
-
-    func imageName() -> String {
-        switch self {
-        case .artists:
-            return "person.3"
-        case .songs:
-            return "music.note"
-        case .albums:
-            return "rectangle.stack"
-        case .playlists:
-            return "music.note.list"
-        }
-    }
-
-    func type() -> Content.Type {
-        switch self {
-        case .artists:
-            return Artist.self
-        case .songs:
-            return Song.self
-        case .albums:
-            return Album.self
-        case .playlists:
-            return Playlist.self
-        }
-    }
 }
 
-protocol Content: Codable {
-    var id: Int { get }
+protocol Content: Codable, Equatable, Identifiable {
+    associatedtype Id: RawRepresentable, Comparable, Hashable where Id.RawValue == Int
+    var id: Id { get }
     var createdAt: Date { get }
     var name: String { get }
     var description: String? { get }
-    func children() -> [Content]
+
+    associatedtype ChildContent: Content
+    func children() -> [ChildContent]
     func detailDescription() -> String
+
+    static var urlPath: String { get }
+    static var description: String { get }
+    static func imageName() -> String
+    static var contentType: ContentType { get }
 }
 
 extension Content {
-    static func typeString() -> String {
-        switch self {
-        case is Artist.Type:
-            return "Artists"
-        case is Song.Type:
-            return "Songs"
-        case is Playlist.Type:
-            return "Playlists"
-        case is Album.Type:
-            return "Albums"
-        default:
-            return ""
-        }
-    }
-
-    func typeString() -> String {
-        switch self {
-        case is Artist:
-            return "Artists"
-        case is Song:
-            return "Songs"
-        case is Playlist:
-            return "Playlists"
-        case is Album:
-            return "Albums"
-        default:
-            return ""
-        }
-    }
-
-    static func == (lhs: Content, rhs: Content) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    // default to empty children
-    func children() -> [Content] {
-        [Song]()
-    }
-
     func hasChildren() -> Bool {
-        children().count > 0
+        !children().isEmpty
     }
 
     func detailDescription() -> String {
         " "
+    }
+}
+
+extension Array where Element: Content {
+    mutating func sort(by sortType: SortType) {
+        // dry - thought this would originally need to be more custom
+        switch sortType {
+        case .id:
+            sort(by: { $0.id < $1.id })
+        case .name:
+            sort(by: { $0.name < $1.name })
+        case .date:
+            sort(by: { $0.createdAt < $1.createdAt })
+        }
+    }
+
+    func sorted(by sortType: SortType) -> [Element] {
+        var arr = self
+        arr.sort(by: sortType)
+        return arr
     }
 }

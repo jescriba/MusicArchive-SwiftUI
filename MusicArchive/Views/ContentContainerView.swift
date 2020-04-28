@@ -5,8 +5,7 @@ import SwiftUI
 
 struct ContentContainerView: View {
     @EnvironmentObject var authorizer: Authorizer
-    @State var selectedContent: ContentType = .albums
-    let contentTypes: [ContentType] = [.albums, .playlists, .songs, .artists]
+    @State var selectedContent = ContentType.albums
 
     init() {
         UITabBar.appearance().backgroundColor = .systemBackground
@@ -21,15 +20,10 @@ struct ContentContainerView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             TabView(selection: $selectedContent) {
-                ForEach(contentTypes, id: \.rawValue, content: { contentType in
-                    ContentView()
-                        .environmentObject(ContentObserver(type: contentType))
-                        .environmentObject(AudioPlayer.shared)
-                        .tabItem {
-                            Image(systemName: contentType.imageName())
-                            Text(contentType.rawValue.capitalized)
-                        }.tag(contentType).padding(.bottom, 49)
-                })
+                ContentTab<Artist>()
+                ContentTab<Song>()
+                ContentTab<Album>()
+                ContentTab<Playlist>()
             }
             AudioBar()
                 .environmentObject(AudioPlayer.shared)
@@ -39,3 +33,17 @@ struct ContentContainerView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
+
+struct ContentTab<Content: MusicArchive.Content>: View {
+    var body: some View {
+        ContentView<Content>()
+            .environmentObject(ContentObserver<Content>())
+            .environmentObject(AudioPlayer.shared)
+            .tabItem {
+                Image(systemName: Content.imageName())
+                Text(Content.description.capitalized)
+            }.tag(Content.contentType).padding(.bottom, 49)
+    }
+}
+
+extension Content {}

@@ -3,15 +3,15 @@
 import Foundation
 import SwiftUI
 
-struct ContentView: View {
-    @EnvironmentObject var contentObserver: ContentObserver
+struct ContentView<Content: MusicArchive.Content>: View {
+    @EnvironmentObject var contentObserver: ContentObserver<Content>
     @State var hasLoaded = false
     @State var currentMaxIndex = 0
 
     var body: some View {
         NavigationView {
             // SwiftUI doesn't seem to play well with NavigationStack > VStack > List
-            List(self.contentObserver.contents.enumerated().map { $0 }, id: \.element.id) { index, content in
+            List(Array(contentObserver.contents.enumerated()), id: \.element.id) { index, content in
                 NavigationLink(destination: DetailView(content: content)) {
                     HStack {
                         ContentRow(content: content)
@@ -46,7 +46,7 @@ struct ContentView: View {
                 }
                 self.hasLoaded = true
             })
-                .navigationBarTitle(self.contentObserver.type.rawValue.capitalized)
+                .navigationBarTitle(Content.description.capitalized)
                 .navigationBarItems(trailing: self.contentObserver.isLoading ? AnyView(LoadingView().padding(.trailing, 20)) : AnyView(EmptyView()))
         }
     }
@@ -54,6 +54,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(ContentObserver(type: .artists))
+        ContentView<Artist>().environmentObject(ContentObserver<Artist>())
     }
 }
