@@ -2,31 +2,24 @@
 
 import Foundation
 
-class ContentObserver: ObservableObject {
+final class ContentObserver<Content: MusicArchive.Content>: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var contents = [Content]()
-    let type: ContentType
     var currentPage: Int = 1
     let pageSize: Int = 20
 
-    init(type: ContentType) {
-        self.type = type
-    }
-
-    func getContent(page: Int = 1,
-                    append: Bool = false) {
+    func getContent(page: Int = 1, append: Bool = false) {
         currentPage = page
         isLoading = true
-        ArchiveClient.shared.getContent(type: type, page: page, completionHandler: { fetchedContent in
-            DispatchQueue.main.async {
-                if append {
-                    self.contents.append(contentsOf: fetchedContent)
-                } else {
-                    self.contents = fetchedContent
-                }
-                self.isLoading = false
+        Client<Content>(page: page).fetch { [weak self] result in
+            guard let self = self, case let .success(content) = result else { return }
+            if append {
+                self.contents.append(contentsOf: content)
+            } else {
+                self.contents = content
             }
-        })
+            self.isLoading = false
+        }
     }
 
     func getMoreContent() {

@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-struct ContentRow: View {
+struct ContentRow<Content: MusicArchive.Content>: View {
     @State var content: Content
 
     var body: some View {
@@ -17,6 +17,10 @@ struct ContentRow: View {
 
 struct ContentRowPreview: PreviewProvider {
     static var previews: some View {
-        ContentRow(content: Song(id: 0, createdAt: Date(), name: "Song", description: "", artists: [Artist]()))
+        ContentRow(content: Song(id: .init(rawValue: 0),
+                                 createdAt: Date(),
+                                 name: "Song",
+                                 description: "",
+                                 artists: []))
     }
 }

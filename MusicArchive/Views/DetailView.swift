@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-struct DetailView: View {
+struct DetailView<Content: MusicArchive.Content>: View {
     @State var sortCollapsed: Bool = true
     @State var sortType: SortType = .id
     var content: Content

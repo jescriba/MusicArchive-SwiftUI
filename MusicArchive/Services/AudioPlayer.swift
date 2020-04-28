@@ -185,8 +185,7 @@ class AudioPlayer: NSObject, ObservableObject {
     }
 
     private func insertNext(song: Song) {
-        guard let urlString = song.url,
-            let url = URL(string: urlString) else {
+        guard let url = song.url else {
             return
         }
         let playerItem = SongPlayerItem(url: url, song: song)
@@ -195,8 +194,7 @@ class AudioPlayer: NSObject, ObservableObject {
 
     // Append song to the queue
     func playLater(song: Song) {
-        guard let urlString = song.url,
-            let url = URL(string: urlString) else { return }
+        guard let url = song.url else { return }
         let playerItem = SongPlayerItem(url: url, song: song)
         _player.insert(playerItem, after: nil)
     }
