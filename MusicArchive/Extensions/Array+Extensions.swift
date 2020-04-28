@@ -21,7 +21,7 @@ extension Array where Element == Artist {
     }
 }
 
-extension Array where Element == Content {
+extension Array where Element: Content {
     mutating func sort(by sortType: SortType) {
         // dry - thought this would originally need to be more custom
         switch sortType {
