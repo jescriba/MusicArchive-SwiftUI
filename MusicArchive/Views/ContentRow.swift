@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-struct ContentRow<Content: MusicArchive.Content>: View {
+struct ContentRow<Content: MusicArchiveFramework.Content>: View {
     @State var content: Content
 
     var body: some View {

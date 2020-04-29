@@ -1,5 +1,6 @@
 // Copyright (c) 2020 Joshua Escribano-Fontanet
 
+import MusicArchiveFramework
 import SwiftUI
 import UIKit
 

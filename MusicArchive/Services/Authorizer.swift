@@ -2,12 +2,12 @@
 
 import Foundation
 
-enum AuthError: Error {
+public enum AuthError: Error {
     case generic
 }
 
-class Authorizer: ObservableObject {
-    static let shared = Authorizer()
+public class Authorizer: ObservableObject {
+    public static let shared = Authorizer()
     @Published var authorized: Bool = false
     // Polish: real web session auth
     let username = "Sweet"
@@ -20,7 +20,7 @@ class Authorizer: ObservableObject {
         return nil
     }
 
-    func authorize(token _: String? = nil) -> AuthError? {
+    public func authorize(token _: String? = nil) -> AuthError? {
         // Polish: real web token auth
         guard UserDefaults.standard.value(forKey: "authToken") != nil else {
             return .generic

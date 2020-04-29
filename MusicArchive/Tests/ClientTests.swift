@@ -1,6 +1,6 @@
 // Copyright (c) 2020 Joshua Escribano-Fontanet
 
-@testable import MusicArchive
+@testable import MusicArchiveFramework
 import XCTest
 
 struct TestError: Error {}

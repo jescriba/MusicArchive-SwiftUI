@@ -2,7 +2,7 @@
 
 import Foundation
 
-final class ContentObserver<Content: MusicArchive.Content>: ObservableObject {
+final class ContentObserver<Content: MusicArchiveFramework.Content>: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var contents = [Content]()
     var currentPage: Int = 1
