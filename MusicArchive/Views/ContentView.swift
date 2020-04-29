@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-struct ContentView<Content: MusicArchive.Content>: View {
+struct ContentView<Content: MusicArchiveFramework.Content>: View {
     @EnvironmentObject var contentObserver: ContentObserver<Content>
     @State var hasLoaded = false
     @State var currentMaxIndex = 0

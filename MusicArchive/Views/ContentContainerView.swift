@@ -34,7 +34,7 @@ struct ContentContainerView: View {
     }
 }
 
-struct ContentTab<Content: MusicArchive.Content>: View {
+struct ContentTab<Content: MusicArchiveFramework.Content>: View {
     var body: some View {
         ContentView<Content>()
             .environmentObject(ContentObserver<Content>())
