@@ -28,6 +28,7 @@ targets:
     platform: iOS
     sources:
       - MusicArchive/AppDelegate.swift
+      - MusicArchive/SceneDelegate.swift
       - path: MusicArchive/Assets.xcassets
         buildPhase: resources
       - path: MusicArchive/Base.lproj/LaunchScreen.storyboard
@@ -49,6 +50,7 @@ targets:
       - path: MusicArchive
         excludes:
           - AppDelegate.swift
+          - SceneDelegate.swift
           - Base.lproj
           - Tests
           - Info.plist

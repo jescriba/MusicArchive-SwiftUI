@@ -3,11 +3,11 @@
 import Foundation
 import SwiftUI
 
-struct ContentContainerView: View {
+public struct ContentContainerView: View {
     @EnvironmentObject var authorizer: Authorizer
     @State var selectedContent = ContentType.albums
 
-    init() {
+    public init() {
         UITabBar.appearance().backgroundColor = .systemBackground
         UITabBar.appearance().tintColor = .clear
         // SwiftUI bug? incorrectly changes bar tint to dark mode in light mode so commented out...
@@ -17,7 +17,7 @@ struct ContentContainerView: View {
         UINavigationBar.appearance().barTintColor = .systemBackground
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .bottomTrailing) {
             TabView(selection: $selectedContent) {
                 ContentTab<Artist>()
