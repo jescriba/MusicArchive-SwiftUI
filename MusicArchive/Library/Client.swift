@@ -3,7 +3,7 @@
 import Foundation
 import Overture
 
-struct Client<Content: MusicArchive.Content> {
+struct Client<Content: MusicArchiveFramework.Content> {
     var page: Int = 1
 
     var data: (URLRequest, _ completion: @escaping (Result<Data, Error>) -> Void) -> Void = { request, completion in
