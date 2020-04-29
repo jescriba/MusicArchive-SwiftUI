@@ -2,12 +2,10 @@ build:
 	@xcodegen
 
 test: build
-	@set -o pipefail && xcodebuild -workspace MusicArchive.xcworkspace -scheme MusicArchiveTests -destination "platform=iOS Simulator,name=iPhone 11 Pro" build test | xcpretty
+	@set -o pipefail && xcodebuild -workspace MusicArchive.xcworkspace -scheme MusicArchiveTests -destination "platform=iOS Simulator,name=iPhone 11 Pro" build test
 
 ci_bootstrap:
 	@bin/brew_install.sh xcodegen
-	@bundle install --quiet
-	@$(MAKE) build
 
 inc-build:
 	@bin/inc_build_number.sh
